@@ -7,7 +7,7 @@ public class Book implements Serializable{
 
 	private static final long serialVersionUID = -5577579081118070434L;
 
-	private int idBook;
+	private String idBook;
 	private String title;
 	private String author;
 	private String cover;
@@ -16,11 +16,11 @@ public class Book implements Serializable{
 	private double price;
 
 	// Book ID
-	public int getIdBook(){
+	public String getIdBook(){
 		return idBook;
 	}
 
-	public void setIdBook(int idBook) {
+	public void setIdBook(String idBook) {
 		this.idBook = idBook;
 	}
 

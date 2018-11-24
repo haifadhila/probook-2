@@ -3,6 +3,7 @@ package com.journaldev.jaxws.service;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import java.io.IOException;
 
 import com.journaldev.jaxws.beans.Book;
 
@@ -11,13 +12,13 @@ import com.journaldev.jaxws.beans.Book;
 public interface BookService{
 
 	@WebMethod
-	public Book[] getBooks(String keyword);
+	public Book[] getBooks(String keyword) throws IOException;
 
 	@WebMethod
-	public Book getBookDetail(int idBook);
+	public Book getBookDetail(String idBook);
 
 	@WebMethod
-	public boolean buyBook(int idBook);
+	public boolean buyBook(String idBook);
 
 	@WebMethod
 	public Book[] recommendBooks(String category);
