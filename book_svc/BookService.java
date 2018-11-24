@@ -8,17 +8,17 @@ import com.journaldev.jaxws.beans.Book;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface BookService {
+public interface BookService{
 
 	@WebMethod
-	public boolean addBook(Book b);
+	public Book[] getBooks(String keyword);
 
 	@WebMethod
-	public boolean deleteBook(int idBook);
+	public Book getBookDetail(int idBook);
 
 	@WebMethod
-	public Book getBook(int idBook);
+	public boolean buyBook(int idBook);
 
 	@WebMethod
-	public Book[] getAllBooks();
+	public Book[] recommendBooks(String category);
 }
