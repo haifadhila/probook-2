@@ -16,11 +16,11 @@ import javax.jws.WebService;
 import com.journaldev.jaxws.beans.Book;
 
 @WebService(endpointInterface = "com.journaldev.jaxws.service.BookService")
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements com.journaldev.jaxws.service.BookService {
 
 	// GET BOOKS: TO RETURN BOOK RESULTS FROM SEARCHBOOK
 	@Override
-	public Book[] getBooks(String keyword) throws IOException, JSONException{
+	public Book[] getBooks(String keyword) throws IOException {
 		// Replace whitespace to "+" for keyword
 		keyword = keyword.replace(" ","+");
 
@@ -42,7 +42,7 @@ public class BookServiceImpl implements BookService {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String inputLine;
-			StringBuffer response = new StringBuffer();
+			StringBuilder response = new StringBuilder();
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -109,8 +109,7 @@ public class BookServiceImpl implements BookService {
 	// GET BOOK DETAIL: TO RETURN BOOK DETAILS TO SHOW
 	@Override
 	public Book getBookDetail(String idBook){
-		Book b = new Book();
-		return b;
+		return new Book();
 	}
 
 	// TO BUY BOOK
@@ -122,8 +121,7 @@ public class BookServiceImpl implements BookService {
 	// RECOMMEND BOOK: TO RETURN RECOMMENDED BOOK BASED ON CATEGORY
 	@Override
 	public Book[] recommendBooks(String category){
-		Book[] b = new Book[10];
-		return b;
+		return new Book[10];
 	}
 
 }
