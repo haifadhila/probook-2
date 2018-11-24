@@ -13,7 +13,9 @@ public class Book implements Serializable{
 	private String cover;
 	private String category;
 	private String description;
+	private String saleability;
 	private double price;
+	private float rating;
 
 	// Book ID
 	public String getIdBook(){
@@ -69,6 +71,15 @@ public class Book implements Serializable{
 		this.description = description;
 	}
 
+	// Book Saleability
+	public String getSaleability(){
+		return saleability;
+	}
+
+	public void setSaleability(String saleability){
+		this.saleability = saleability;
+	}
+
 	// Book Price
 	public double getPrice(){
 		return price;
@@ -77,6 +88,16 @@ public class Book implements Serializable{
 	public void setPrice(double price){
 		this.price = price;
 	}
+
+	// Book Average Rating
+	public float getRating(){
+		return rating;
+	}
+
+	public void setRating(float rating){
+		this.price = price;
+	}
+
 
 	@Override
 	public String toString(){

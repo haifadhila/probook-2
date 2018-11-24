@@ -27,7 +27,7 @@ public class BookServiceImpl implements BookService {
 		// Define User
 		String USER_AGENT = "Mozilla/5.0";
 		// Define Google Books API URL
-		String GET_URL = "https://www.googleapis.com/books/v1/volumes?q="+keyword;
+		String GET_URL = "https://www.googleapis.com/books/v1/volumes?q=intitle:"+keyword;
 
 		// Get URL and check connection
 		URL obj = new URL(GET_URL);
@@ -37,32 +37,73 @@ public class BookServiceImpl implements BookService {
 		int responseCode = con.getResponseCode();
 		System.out.println("GET Response Code :: " + responseCode);
 
-		StringBuffer response = new StringBuffer();
 		// If response code = 200, then success and read response
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String inputLine;
-
+			StringBuffer response = new StringBuffer();
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
 			in.close();
 
-			// Print result from Google Books API
-			//System.out.println(response.toString());
+			// Convert string to JSON
+			JSONObject booklist = new JSONObject(response.toString());
+			JSONArray bookitems = booklist.getJSONArray("items");
+
+			// Add data from googlebooksAPI to Books array
+			Book[] bookArray = new Book[bookitems.length()+1];
+			for (int i=0; i<bookitems.length(); i++){
+				Book b = new Book();
+				// get values, if string attributes are not present, set to "-"
+				// idBook
+				b.setIdBook(bookitems.getJSONObject(i).getString("id"));
+				// book title
+				b.setTitle(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getString("title"));
+				// book author
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("authors"))
+					b.setAuthor(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
+				else
+					b.setAuthor("-");
+				// book image
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("imageLinks"))
+					b.setCover(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
+				else
+					b.setCover("-");
+				// book category
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories"))
+					b.setCategory(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+				else
+					b.setCategory("-");
+				// book description
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("description"))
+					b.setDescription(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
+				else
+					b.setDescription("-");
+				// book saleability
+				b.setSaleability(bookitems.getJSONObject(i).getJSONObject("saleInfo").getString("saleability"));
+				// book price
+				if (bookitems.getJSONObject(i).getJSONObject("saleInfo").has("retailPrice"))
+					b.setPrice(bookitems.getJSONObject(i).getJSONObject("saleInfo").getJSONObject("retailPrice").getDouble("amount"));
+				else
+					b.setPrice(0);
+				// book average rating
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("averageRating"))
+					b.setRating(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getFloat("averageRating"));
+				else
+					b.setRating(0);
+
+				// assign to array
+				bookArray[i] = b;
+			}
+			return bookArray;
 		}
 		else { // if not success
+			Book[] bookArray = new Book[1];
 			System.out.println("GET request failed");
+			return bookArray;
 		}
-
-		// Convert string to JSON
-		JSONObject booklist = new JSONObject(response.toString());
-
-    System.out.println(booklist.getString("kind"));
-
-		Book[] b = new Book[10];
-		return b;
 	}
 
 	// GET BOOK DETAIL: TO RETURN BOOK DETAILS TO SHOW
