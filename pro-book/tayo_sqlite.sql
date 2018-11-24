@@ -41,3 +41,14 @@ create table if not exists Reviews (
     references Transactions(idTransaction)
     on delete cascade on update cascade
 );
+
+create table if not exists AuthTokens (
+  idToken char(24) not null,
+  expiry timestamp not null,
+  idUser int,
+  clientIp varchar(64) not null,
+  userAgentHash char(24) not null,
+  primary key (idToken),
+  foreign key (idUser)
+    references Users(idUser)
+);
