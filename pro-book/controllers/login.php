@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if(is_array($user) && authenticate($user['username'], $user['password'], $username, $password)) {
     // Success
-    set_token($user['idUser']);
+    set_token(intval($user['idUser']));
     // Redirect user
     redir_success();
   }
