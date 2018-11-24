@@ -44,7 +44,7 @@ create table if not exists Reviews (
 
 create table if not exists AuthTokens (
   idToken char(24) not null,
-  issuedAt timestamp not null default current_timestamp,
+  expiry timestamp not null,
   idUser int,
   clientIp varchar(64) not null,
   userAgentHash char(24) not null,
