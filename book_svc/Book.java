@@ -11,6 +11,7 @@ public class Book implements Serializable{
 	private String title;
 	private String author;
 	private String cover;
+	private String category;
 	private String description;
 	private double price;
 
@@ -48,6 +49,15 @@ public class Book implements Serializable{
 
 	public void setCover (String cover){
 		this.cover = cover;
+	}
+
+	// Book Category
+	public String getCategory(){
+		return category;
+	}
+
+	public void setCategory(String category){
+		this.category = category;
 	}
 
 	// Book Description
