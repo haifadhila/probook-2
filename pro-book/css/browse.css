@@ -1,7 +1,7 @@
 .searchheading {
   font-size: 80px;
   color: #F26600;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-top: 40px;
   margin-left: 50px;
 }
@@ -24,12 +24,12 @@
   margin-bottom: 25px;
   border-radius: 10px;
   border-style: solid;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 #submitbt {
   font-size: 25px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: white;
   background-color: #00AEEF;
   border-radius: 10px;
@@ -46,7 +46,7 @@
 #countresult {
   align-items: center;
   font-size: 30px;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-top: 85px;
 }
 
@@ -87,26 +87,30 @@
   font-size: 35px;
   font-weight: bold;
   color: #F26600;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 .bookscore {
   display: flex;
   font-size: 20px;
   font-weight: bold;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 .bookdesc {
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
+}
+
+#nodesc{
+  color: grey;
 }
 
 .detail {
   float: right;
   border-radius: 10px;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: white;
   background-color: #00AEEF;
   border-radius: 10px;
@@ -143,13 +147,13 @@
 .author {
   font-size: 20px;
   font-weight: bold;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 50px;
   align-self: flex-start;
 }
 
 .desc {
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 50px;
   align-self: flex-start;
   margin-top: 30px;
@@ -177,14 +181,14 @@
 .bookrating {
   font-size: 20px;
   font-weight: bold;
-  font-family: helvetica;
+  font-family: Nunito;
   align-self: center;
 }
 
 .h2heading {
   font-size: 50px;
   color: #13364A;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 50px;
   margin-bottom: 15px;
 }
@@ -192,7 +196,7 @@
 .number {
   font-size: 20px;
   margin-left: 50px;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 .pickn {
@@ -203,7 +207,7 @@
   float: right;
   border-radius: 10px;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: white;
   background-color: #00AEEF;
   border-style: none;
@@ -243,12 +247,12 @@
 .at {
   font-size: 30px;
   font-weight: bold;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 .reviewdesc {
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
 }
 
 .ratingstar {
@@ -300,7 +304,7 @@
 .checkorder {
   display: flex;
   margin-top: 65px;
-  font-family: helvetica;
+  font-family: Nunito;
   padding-bottom: 25px;
   padding-left: 15px;
 }
