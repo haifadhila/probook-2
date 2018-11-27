@@ -1,4 +1,4 @@
-package com.journaldev.jaxws.service;
+package bookservice;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import org.json.JSONException;
 
 import javax.jws.WebService;
 
-import com.journaldev.jaxws.beans.Book;
+import bookservice.Book;
 
-@WebService(endpointInterface = "com.journaldev.jaxws.service.BookService")
-public class BookServiceImpl implements com.journaldev.jaxws.service.BookService {
+@WebService(endpointInterface = "bookservice.BookService")
+public class BookServiceImpl implements bookservice.BookService {
 
 	// GET BOOKS: TO RETURN BOOK RESULTS FROM SEARCHBOOK
 	@Override

@@ -1,4 +1,4 @@
-package com.journaldev.jaxws.service;
+package bookservice;
 
 import javax.xml.ws.Endpoint;
 
@@ -11,4 +11,4 @@ public class SOAPPublisher {
 }
 
 // Javac -d . Book.java BookService.java BookServiceImpl.java SOAPPublisher.java
-// java -classpath . com.journaldev.jaxws.service.SOAPPublisher
+// java -classpath . bookservice.SOAPPublisher

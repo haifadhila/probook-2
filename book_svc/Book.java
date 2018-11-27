@@ -1,5 +1,4 @@
-
-package com.journaldev.jaxws.beans;
+package bookservice;
 
 import java.io.Serializable;
 
