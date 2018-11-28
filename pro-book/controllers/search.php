@@ -4,17 +4,15 @@
 if (!isset($_REQUEST['search'])) {
     require 'views/search-book.php';
 } else {
-    global $db_conn;
-    $query = $_REQUEST['search'];
-    $stmt = $db_conn->prepare('
-        select
-            Books.idBook, title, author, cover, description, avg(rating) as rating,
-            count(Reviews.idTransaction) as reviewCount
-        from Books
-        left outer join Transactions on Books.idbook = Transactions.idBook
-        left outer join Reviews on Transactions.idTransaction = Reviews.idTransaction
-        where title like ? group by Books.idBook');
-    $stmt->execute(["%$query%"]);
-    $results = $stmt->fetchAll();
-    require 'views/search-result.php';
+    ini_set('soap.wsdl_cache_enabled', 0);
+    ini_set('soap.wsdl_cache_ttl', 900);
+    ini_set('default_socket_timeout', 600);
+
+    $wsdl = 'http://localhost:8888/ws/probook?wsdl';
+
+      $soap = new SoapClient($wsdl);
+      $data = $soap->getBooks($_REQUEST['search']);
+      $result = json_encode($data);
+      echo($result);
 }
+?>
