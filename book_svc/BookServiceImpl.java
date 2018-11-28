@@ -53,7 +53,7 @@ public class BookServiceImpl implements bookservice.BookService {
 			JSONArray bookitems = booklist.getJSONArray("items");
 
 			// Add data from googlebooksAPI to Books array
-			Book[] bookArray = new Book[bookitems.length()+1];
+			Book[] bookArray = new Book[bookitems.length()];
 			for (int i=0; i<bookitems.length(); i++){
 				Book b = new Book();
 				// get values, if string attributes are not present, set to "-"
@@ -119,7 +119,7 @@ public class BookServiceImpl implements bookservice.BookService {
 		// Define User
 		String USER_AGENT = "Mozilla/5.0";
 		// Define Google Books API URL
-		String GET_URL = "https://www.googleapis.com/books/v1/volumes?q="+idBook;
+		String GET_URL = "https://www.googleapis.com/books/v1/volumes/"+idBook;
 
 		// Get URL and check connection
 		URL obj = new URL(GET_URL);
@@ -131,7 +131,8 @@ public class BookServiceImpl implements bookservice.BookService {
 
 		// If response code = 200, then success and read response
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
 			String inputLine;
 			StringBuilder response = new StringBuilder();
 			while ((inputLine = in.readLine()) != null) {
@@ -140,57 +141,63 @@ public class BookServiceImpl implements bookservice.BookService {
 			in.close();
 
 			// Convert string to JSON
-			JSONObject booklist = new JSONObject(response.toString());
-			JSONArray bookitems = booklist.getJSONArray("items");
+			JSONObject details = new JSONObject(response.toString());
 
-			// Add data from googlebooksAPI to Books array
-			Book[] bookArray = new Book[bookitems.length()+1];
+				Book b = new Book();
+				// get values, if string attributes are not present, set to "-"
+				// idBook
+				b.setIdBook(details.getString("id"));
+				// book title
+				b.setTitle(details.getJSONObject("volumeInfo").getString("title"));
+				// book author
+				if (details.getJSONObject("volumeInfo").has("authors"))
+					b.setAuthor(details.getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
+				else
+					b.setAuthor("(No authors added)");
+				// book image
+				if (details.getJSONObject("volumeInfo").has("imageLinks"))
+					b.setCover(details.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
+				else
+					b.setCover("-");
+				// book category
+				if (details.getJSONObject("volumeInfo").has("categories"))
+					b.setCategory(details.getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+				else
+					b.setCategory("(No categories added)");
+				// book description
+				if (details.getJSONObject("volumeInfo").has("description"))
+					b.setDescription(details.getJSONObject("volumeInfo").getString("description"));
+				else
+					b.setDescription("No description yet.");
+				// book saleability
+				b.setSaleability(details.getJSONObject("saleInfo").getString("saleability"));
+				// book price
+				if (details.getJSONObject("saleInfo").has("retailPrice"))
+					b.setPrice(details.getJSONObject("saleInfo").getJSONObject("retailPrice").getDouble("amount"));
+				else
+					b.setPrice(0);
+				// book average rating
+				if (details.getJSONObject("volumeInfo").has("averageRating"))
+					b.setRating(details.getJSONObject("volumeInfo").getFloat("averageRating"));
+				else
+					b.setRating(0);
+					//
+				// book average rating
+				if (details.getJSONObject("volumeInfo").has("ratingsCount"))
+					b.setRatingCount(details.getJSONObject("volumeInfo").getInt("ratingsCount"));
+				else
+					b.setRatingCount(0);
 
-			Book b = new Book();
-			// get values, if string attributes are not present, set to "-"
-			// idBook
-			b.setIdBook(bookitems.getJSONObject(0).getString("id"));
-			// book title
-			b.setTitle(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getString("title"));
-			// book author
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("authors"))
-				b.setAuthor(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
-			else
-				b.setAuthor("-");
-			// book image
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("imageLinks"))
-				b.setCover(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
-			else
-				b.setCover("-");
-			// book category
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("categories"))
-				b.setCategory(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
-			else
-				b.setCategory("-");
-			// book description
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("description"))
-				b.setDescription(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getString("description"));
-			else
-				b.setDescription("-");
-			// book saleability
-			b.setSaleability(bookitems.getJSONObject(0).getJSONObject("saleInfo").getString("saleability"));
-			// book price
-			if (bookitems.getJSONObject(0).getJSONObject("saleInfo").has("retailPrice"))
-				b.setPrice(bookitems.getJSONObject(0).getJSONObject("saleInfo").getJSONObject("retailPrice").getDouble("amount"));
-			else
-				b.setPrice(0);
-			// book average rating
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("averageRating"))
-				b.setRating(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getFloat("averageRating"));
-			else
-				b.setRating(0);
-			return b;
+				return b;
 		}
+
 		else { // if not success
-			Book b = new Book();
+			// Book[] bookArray = new Book[1];
 			System.out.println("GET request failed");
-			return b;
+			return new Book();
+			// return bookArray;
 		}
+
 	}
 
 	// TO BUY BOOK
