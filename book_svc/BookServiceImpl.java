@@ -65,7 +65,7 @@ public class BookServiceImpl implements bookservice.BookService {
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("authors"))
 					b.setAuthor(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 				else
-					b.setAuthor("-");
+					b.setAuthor("(No authors added)");
 				// book image
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("imageLinks"))
 					b.setCover(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
@@ -75,12 +75,12 @@ public class BookServiceImpl implements bookservice.BookService {
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories"))
 					b.setCategory(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
 				else
-					b.setCategory("-");
+					b.setCategory("(No categories added)");
 				// book description
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("description"))
 					b.setDescription(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
 				else
-					b.setDescription("-");
+					b.setDescription("No description yet.");
 				// book saleability
 				b.setSaleability(bookitems.getJSONObject(i).getJSONObject("saleInfo").getString("saleability"));
 				// book price
@@ -93,6 +93,13 @@ public class BookServiceImpl implements bookservice.BookService {
 					b.setRating(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getFloat("averageRating"));
 				else
 					b.setRating(0);
+					//
+				// book average rating
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("ratingsCount"))
+					b.setRatingCount(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getInt("ratingsCount"));
+				else
+					b.setRatingCount(0);
+					//
 
 				// assign to array
 				bookArray[i] = b;
