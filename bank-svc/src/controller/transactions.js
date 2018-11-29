@@ -1,24 +1,14 @@
 const conn = require('../db/connector')
 
-let getTransaction = (req, res) => {
+let transfer = (req, res) => {
 
 }
 
-let createTransaction = (req, res) => {
-
-}
-
-let updateTransaction = (req, res) => {
-
-}
-
-let deleteTransaction = (req, res) => {
+let show = (req, res) => {
 
 }
 
 module.exports = {
-    getTransaction,
-    createTransaction,
-    updateTransaction,
-    deleteTransaction
+    transfer,
+    show
 }
