@@ -1,27 +1,23 @@
 const accounts = require('../model/accounts')
 const transactions = require('../model/transactions')
 
-let handleResp = (res, onSuccess) => {
-    return (error, result) => {
-        if (error) {
-            console.log(error)
-            return res.sendStatus(500)
-        } else {
-            return onSuccess(result)
-        }
-    }
-}
+let handleResp = (promise, onSuccess) =>
+    promise.then(
+        onSuccess
+    ).catch((error) => {
+        console.log(error)
+        res.sendStatus(500)
+    })
 
-let show = (req, res) => {
-    accounts.byId(req.params.accno, handleResp((res, row) => {
+let show = (req, res) =>
+    handleResp(accounts.byId(req.params.accno), (row) => {
         if (row == null)
             return res.sendStatus(404)
         res.send({
             accno: row.accno,
             name: row.name,
             balance: row.balance})
-    }))
-}
+    })
 
 let notSupported = (res) => {
     res.status(500)
@@ -48,23 +44,21 @@ let transact = (req, res) => {
     }
 }
 
-let listTransactions = (req, res) => {
-    transactions.byAccount(req.params.accno, handleResp((res, rows) => {
+let listTransactions = (req, res) =>
+    handleResp(transactions.byAccount(req.params.accno), (rows) => {
         if (rows == null)
             return res.sendStatus(404)
         res.send(rows)
-    }))
-}
+    })
 
-let listCards = (req, res) => {
-    accounts.byId(req.params.accno, handleResp((res, row) => {
+let listCards = (req, res) =>
+    handleResp(accounts.byId(req.params.accno), (row) => {
         if (row == null)
             return res.sendStatus(404)
         res.send({
             accno: row.accno,
             cards: [row.card_number]})
-    }))
-}
+    })
 
 module.exports = {
     show,

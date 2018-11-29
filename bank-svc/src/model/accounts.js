@@ -1,26 +1,22 @@
-const pool = require('../db/connector')
+const asyncDb = require('../db/async-db')
 
 let rowToResult = (row) => {
     return {
         accno: row.id,
         name: row.name,
         card_number: row.card_number,
-        balance: balance
+        balance: row.balance
     }
 }
 
-let byId = (id, callback) => {
-    pool.query(
+let byId = async (id) => {
+    let results = await asyncDb.poolQuery(
         'select id, name, card_number, balance from accounts where id=?',
-        [id],
-        function (error, results, fields) {
-            if (error)
-                callback(error, null)
-            else if (results.length < 1)
-                callback(null, null)
-            else
-                callback(null, rowToResult(results[0]))
-        })
+        [id])
+    if (results.length < 1)
+        return null
+    else
+        return rowToResult(results[0])
 }
 
 module.exports = {

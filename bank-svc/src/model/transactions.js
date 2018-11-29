@@ -1,4 +1,4 @@
-const pool = require('../db/connector')
+const asyncDb = require('../db/async-db')
 
 let rowToResult = (row) => {
     return {
@@ -11,35 +11,33 @@ let rowToResult = (row) => {
     }
 }
 
-let byId = (id, callback) => {
-    pool.query(
-        'select id, acct, amount, type, remarks, time' +
+let byId = async (id) => {
+    let results = await asyncDb.poolQuery(
+        'select id, acct, amount, type, remarks, time ' +
             'from transactions where id=?',
-        [id],
-        function (error, results, fields) {
-            if (error)
-                callback(error, null)
-            else if (results.length < 1)
-                callback(null, null)
-            else
-                callback(null, rowToResult(results[0]))
-        })
+        [id])
+    if (results.length < 1)
+        return null
+    else
+        return rowToResult(results[0])
 }
 
-let byAccount = (accId, callback) => {
-    pool.query(
-        'select id, acct, amount, type, remarks, time' +
+let byAccount = async (accId) =>
+    (await asyncDb.poolQuery(
+        'select id, acct, amount, type, remarks, time ' +
             'from transactions where acct=? order by id',
-        [accId],
-        function (error, results, fields) {
-            if (error)
-                callback(error, null)
-            else
-                callback(null, results.map(rowToResult))
-        })
-}
+        [accId])
+    ).map(rowToResult)
+
+//let makeWithdrawal = (req, callback) => {
+//
+//}
 
 module.exports = {
     byId,
-    byAccount
+    byAccount,
+    //makeDeposit,
+    //makeWithdrawal,
+    //makeCorrection,
+    //doTransfer
 }
