@@ -141,13 +141,21 @@ Anda tidak dituntut untuk mengerjakan ini. Fokus terlebih dahulu menyelesaikan s
 *Harap semua anggota kelompok mengerjakan SOAP dan REST API kedua-duanya*. Tuliskan pembagian tugas seperti berikut ini.
 
 REST :
-1. Validasi nomor kartu : 1351xxxx
-2. ...
+1. Create API Definition : 13516103
+2. Implement Skeleton : 13516022
+3. Create Database Schema : 13516022
+4. Create Validation Service : 13516076
+4. Create Transfer Service : 13516076
 
 SOAP :
-1. Add Produce : 1351xxxx
-2. Fungsionalitas Y : 1351xxxx
-3. ...
+1. Create API Definition : 13516076
+2. Implement Skeleton : 13516076
+3. Create Configuration : 13516076
+4. Create Google Books API Connector : 13516076
+5. Create Database Schema : 13516103
+6. Create Book Detail : 13516022
+7. Create Book Purchase : 13516022
+8. Create Recommender : 13516103
 
 Perubahan Web app :
 1. Halaman Search : 
