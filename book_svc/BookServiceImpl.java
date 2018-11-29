@@ -6,12 +6,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.Set;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import javax.jws.WebService;
+import java.sql.*;
 
 import bookservice.Book;
 
@@ -188,8 +192,73 @@ public class BookServiceImpl implements bookservice.BookService {
 
 	// TO BUY BOOK
 	@Override
-	public boolean buyBook(String id) {
-		return true;
+	public boolean buyBook(String idBook, int qty, String senderNum) throws IOException {
+
+	  // Query book details dari database
+	  Book b = new Book();
+    try {
+      String queryDB = String.format(""); //input query
+      Connection connectToDB = DriverManager.getConnection(
+        "jdbc:mysql://", //alamat localhost book
+        "root",""
+      );
+      Statement stat = connectToDB.createStatement();
+      ResultSet res = stat.executeQuery(queryDB);
+
+      while (res.next()){
+        b.setIdBook(res.getString(1));
+//        b.setCategory(res.getString(2));
+        b.setPrice(res.getFloat(2)); //liat column berapa
+      }
+      connectToDB.close();
+    } catch (Exception e){
+        System.out.println(e);
+    }
+
+    // Lakukan request ke webservice bank
+    String USER_AGENT = "Mozilla/5.0";
+    String POST_URL = "http://localhost..."; //localhost untuk transfer
+    String POST_PARAM = ""; //masukkan hasil append + parameter
+    URL obj = new URL(POST_URL);
+
+    //Panggil API Google Book
+    HttpURLConnection APIconnect = (HttpURLConnection) obj.openConnection();
+    APIconnect.setRequestMethod("POST");
+    APIconnect.setRequestProperty("User-Agent", USER_AGENT);
+
+    APIconnect.setDoOutput(true);
+    OutputStream ostream = APIconnect.getOutputStream();
+    ostream.write(POST_PARAM.getBytes());
+    ostream.flush();
+    ostream.close();
+
+    int responseCode = APIconnect.getResponseCode();
+    System.out.println("POST Response Code : " + responseCode);
+    if (responseCode == HttpURLConnection.HTTP_OK){
+      BufferedReader br = new BufferedReader(new InputStreamReader(
+              APIconnect.getInputStream()
+      ));
+
+      String inputLine = br.readLine();
+      StringBuffer response = new StringBuffer();
+//      inputLine = br.readLine();
+
+      while (inputLine != null){
+        response.append(inputLine);
+      }
+      br.close();
+
+      System.out.println(response.toString());
+      if (response.toString().equals("true")){
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      System.out.println("POST Request aren't working");
+      return false;
+    }
+
 	}
 
 	// RECOMMEND BOOK: TO RETURN RECOMMENDED BOOK BASED ON CATEGORY
