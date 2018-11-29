@@ -53,7 +53,7 @@ public class BookServiceImpl implements bookservice.BookService {
 			JSONArray bookitems = booklist.getJSONArray("items");
 
 			// Add data from googlebooksAPI to Books array
-			Book[] bookArray = new Book[bookitems.length()+1];
+			Book[] bookArray = new Book[bookitems.length()];
 			for (int i=0; i<bookitems.length(); i++){
 				Book b = new Book();
 				// get values, if string attributes are not present, set to "-"
@@ -70,7 +70,7 @@ public class BookServiceImpl implements bookservice.BookService {
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("imageLinks"))
 					b.setCover(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 				else
-					b.setCover("-");
+					b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 				// book category
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories"))
 					b.setCategory(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
@@ -151,12 +151,12 @@ public class BookServiceImpl implements bookservice.BookService {
 			if (details.getJSONObject("volumeInfo").has("authors"))
 				b.setAuthor(details.getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 			else
-				b.setAuthor("-");
+				b.setAuthor("(No authors added)");
 			// book image
 			if (details.getJSONObject("volumeInfo").has("imageLinks"))
 				b.setCover(details.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 			else
-				b.setCover("-");
+				b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 			// book category
 			if (details.getJSONObject("volumeInfo").has("categories"))
 				b.setCategory(details.getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
@@ -166,7 +166,7 @@ public class BookServiceImpl implements bookservice.BookService {
 			if (details.getJSONObject("volumeInfo").has("description"))
 				b.setDescription(details.getJSONObject("volumeInfo").getString("description"));
 			else
-				b.setDescription("-");
+				b.setDescription("No description yet.");
 			// book saleability
 			b.setSaleability(details.getJSONObject("saleInfo").getString("saleability"));
 			// book price
@@ -184,7 +184,7 @@ public class BookServiceImpl implements bookservice.BookService {
 				b.setRatingCount(details.getJSONObject("volumeInfo").getInt("ratingsCount"));
 			else
 				b.setRatingCount(0);
-				
+
 			return b;
 		}
 		else { // if not success
