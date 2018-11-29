@@ -181,15 +181,18 @@ public class BookServiceImpl implements bookservice.BookService {
 			if (details.getJSONObject("volumeInfo").has("authors"))
 				b.setAuthor(details.getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 			else
-				b.setAuthor("(No authors added)");
+				b.setAuthor("Anonymous");
 			// book image
 			if (details.getJSONObject("volumeInfo").has("imageLinks"))
 				b.setCover(details.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 			else
 				b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 			// book category
-			if (details.getJSONObject("volumeInfo").has("categories"))
-				b.setCategory(details.getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+			if (details.getJSONObject("volumeInfo").has("categories")){
+				String cat = details.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+				cat = cat.replace("'","");
+				b.setCategory(cat);
+			}
 			else
 				b.setCategory("-");
 			// book description
