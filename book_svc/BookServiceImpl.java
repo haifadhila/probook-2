@@ -238,7 +238,7 @@ public class BookServiceImpl implements bookservice.BookService {
 	  // Query book details dari database
 	  Book b = new Book();
     try {
-      String queryDB = String.format(""); //input query
+      String queryDB = String.format("SELECT idBook, price, category FROM transactions NATURAL JOIN books WHERE idBook='%s'",idBook); //input query
       Connection connectToDB = DriverManager.getConnection(
         "jdbc:mysql://", //alamat localhost book
         "root",""
