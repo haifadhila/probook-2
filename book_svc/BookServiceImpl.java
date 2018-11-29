@@ -7,9 +7,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Set;
+
+// For JSON
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+// For connection to MySQL
+import java.sql.*;
 
 import javax.jws.WebService;
 
@@ -21,6 +26,7 @@ public class BookServiceImpl implements bookservice.BookService {
 	// GET BOOKS: TO RETURN BOOK RESULTS FROM SEARCHBOOK
 	@Override
 	public Book[] getBooks(String keyword) throws IOException {
+
 		// Replace whitespace to "+" for keyword
 		keyword = keyword.replace(" ","+");
 
@@ -65,17 +71,20 @@ public class BookServiceImpl implements bookservice.BookService {
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("authors"))
 					b.setAuthor(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 				else
-					b.setAuthor("(No authors added)");
+					b.setAuthor("Anonymous");
 				// book image
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("imageLinks"))
 					b.setCover(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 				else
 					b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 				// book category
-				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories"))
-					b.setCategory(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories")){
+					String cat = bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+					cat = cat.replace("'","");
+					b.setCategory(cat);
+				}
 				else
-					b.setCategory("(No categories added)");
+					b.setCategory("-");
 				// book description
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("description"))
 					b.setDescription(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
@@ -99,6 +108,27 @@ public class BookServiceImpl implements bookservice.BookService {
 				else
 					b.setRatingCount(0);
 					//
+
+					// TEST CONNECT TO MYSQL
+					if (!(b.getSaleability()).equals("NOT_FOR_SALE")){
+						try{
+							String query = String.format("INSERT INTO Books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
+							System.out.println(query);
+							Connection conDB = DriverManager.getConnection(
+								"jdbc:mysql://localhost:3306/book_svc",
+								"root",""
+							);
+							Statement stmt = conDB.createStatement();
+							stmt.executeUpdate(query);
+							// while(rs.next()){
+							// 	System.out.println(rs.getString(1));
+							// }
+							conDB.close();
+						}
+						catch(Exception e){
+							System.out.println(e);
+						}
+					}
 
 				// assign to array
 				bookArray[i] = b;
