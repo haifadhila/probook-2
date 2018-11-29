@@ -1,4 +1,4 @@
-let conn = require('..db/connector');
+const conn = require('../db/connector')
 
 let getUser = (req, res) => {
 
@@ -17,8 +17,8 @@ let deleteUser = (req, res) => {
 }
 
 module.exports = {
-	getUser,
-	createUser,
-	updateUser,
-	deleteUser
+    getUser,
+    createUser,
+    updateUser,
+    deleteUser
 }

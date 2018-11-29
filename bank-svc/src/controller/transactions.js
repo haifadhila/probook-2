@@ -1,4 +1,4 @@
-let conn = require('..db/connector');
+const conn = require('../db/connector')
 
 let getTransaction = (req, res) => {
 
@@ -17,8 +17,8 @@ let deleteTransaction = (req, res) => {
 }
 
 module.exports = {
-	getTransaction,
-	createTransaction,
-	updateTransaction,
-	deleteTransaction
+    getTransaction,
+    createTransaction,
+    updateTransaction,
+    deleteTransaction
 }
