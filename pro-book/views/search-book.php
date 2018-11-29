@@ -12,12 +12,12 @@
         <br>
         <input type='submit' id='submitbt' value='Search'>
       </form>
-          <div ng-if="result.books.length==0 && result.keyword!='' " class='loader'> </div>
+          <div class='loader' style="display: none" id='loader'> </div>
 
-        <div class='resultheading' ng-if="result.books.length>0">
+        <div class='resultheading' ng-if="result.books.length>0" id='test'>
           <h1 class='resultsheading'>Search Result</h1>
           <div id='countresult'>
-            <span>Found </span><span id='count'>{{(result.books).length-1}}</span><span> result(s)</span>
+            <span>Found </span><span id='count'>{{(result.books).length}}</span><span> result(s)</span>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
             <div class='book'>
               <div class='bookname'>{{book.title}}</div>
               <div class='bookscore'>
-                <span class='bookauthor'>{{book.author}}</span>
+                <span class='bookauthor'>{{book.saleability}}</span>
                 <span>&nbsp;-&nbsp;</span>
                 <span class='bookrating'>{{book.rating}}</span>
                 <span>/5.0 (</span>
