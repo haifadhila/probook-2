@@ -33,17 +33,17 @@
     <div>
       <div class='bookdetaileddesc'>
         <div class='bookauthordesc'>
-          <h1 class='searchheading'><?php e($book['title']);?></h1>
-          <div class='author'><?php e($book['author']);?></div>
-          <div class='desc'><?php e($book['description']);?></div>
+          <h1 class='searchheading'><?php e($detail->title);?></h1>
+          <div class='author'><?php e($detail->author);?></div>
+          <div class='desc'><?php e($detail->description);?></div>
         </div>
         <div class='bookimgrating'>
           <div class='bookimg'>
-            <img class='imagereview' src='<?php es("uploadimg/${book['cover']}");?>'>
+            <img class='imagereview' src='<?php e($detail->cover) ?>'>
           </div>
           <div class='bookstar'>
   <?php     for ($i = 1; $i <= 5; $i++) {
-              if ($avgrating >= $i) { ?>
+              if ($detail->rating >= $i) { ?>
             <img class='star' src='<?php es('img/filledstar.png');?>'>
   <?php       } else { ?>
             <img class='star' src='<?php es('img/emptystar.png');?>'>
@@ -51,10 +51,14 @@
             }
   ?>
           </div>
-          <div class='bookrating'><?php e(number_format($avgrating,1));?>&nbsp;/ 5.0</div>
+          <div class='bookrating'><?php e(number_format($detail->rating,1));?>&nbsp;/ 5.0</div>
         </div>
       </div>
+<!-- ORDER -->
+    <?php if ($detail->saleability == 'FOR_SALE' || $detail->saleability == 'FREE'){ ?>
       <div>
+        <div class='harga'>Harga: Rp<?php e($detail->price);?>;</div>
+
         <h2 class='h2heading'>Order</h2>
         <div class='numberorder'>
           <div class='number'>Jumlah :
@@ -71,11 +75,14 @@
             <option value='10'>10</option>
           </select>
           </div>
-          <input type='hidden' id='idBook' value='<?php e($book['idBook']);?>'>
+
+          <input type='hidden' id='idBook' value='<?php e($detail->idBook);?>'>
           <?php $orderurl = json_encode(make_url('order'), JSON_HEX_TAG|JSON_HEX_AMP);?>
           <button class='order' onclick="addOrder(<?php e($orderurl);?>)">Order</button>
         </div>
       </div>
+<!-- ORDER -->
+<!-- REVIEW -->
       <div class='review'>
         <h2 class='h2heading'>Reviews</h2>
   <?php foreach ($reviews as $review) { ?>
@@ -92,6 +99,13 @@
         </div>
   <?php } ?>
       </div>
+<?php }
+      else{ ?>
+        <div>
+          <h2 class='h3heading'>Not for sale</h2>
+        </div>
+  <?php    } ?>
+<!-- REVIEW -->
     </div>
     <script type='text/javascript' src='<?php es('js/book-detail.js');?>'></script>
   </body>

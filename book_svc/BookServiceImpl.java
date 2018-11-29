@@ -10,9 +10,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Set;
+
+// For JSON
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+// For connection to MySQL
+import java.sql.*;
 
 import javax.jws.WebService;
 import java.sql.*;
@@ -25,6 +30,7 @@ public class BookServiceImpl implements bookservice.BookService {
 	// GET BOOKS: TO RETURN BOOK RESULTS FROM SEARCHBOOK
 	@Override
 	public Book[] getBooks(String keyword) throws IOException {
+
 		// Replace whitespace to "+" for keyword
 		keyword = keyword.replace(" ","+");
 
@@ -57,7 +63,7 @@ public class BookServiceImpl implements bookservice.BookService {
 			JSONArray bookitems = booklist.getJSONArray("items");
 
 			// Add data from googlebooksAPI to Books array
-			Book[] bookArray = new Book[bookitems.length()+1];
+			Book[] bookArray = new Book[bookitems.length()];
 			for (int i=0; i<bookitems.length(); i++){
 				Book b = new Book();
 				// get values, if string attributes are not present, set to "-"
@@ -69,22 +75,25 @@ public class BookServiceImpl implements bookservice.BookService {
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("authors"))
 					b.setAuthor(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 				else
-					b.setAuthor("-");
+					b.setAuthor("Anonymous");
 				// book image
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("imageLinks"))
 					b.setCover(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 				else
-					b.setCover("-");
+					b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 				// book category
-				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories"))
-					b.setCategory(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("categories")){
+					String cat = bookitems.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+					cat = cat.replace("'","");
+					b.setCategory(cat);
+				}
 				else
 					b.setCategory("-");
 				// book description
 				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("description"))
 					b.setDescription(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
 				else
-					b.setDescription("-");
+					b.setDescription("No description yet.");
 				// book saleability
 				b.setSaleability(bookitems.getJSONObject(i).getJSONObject("saleInfo").getString("saleability"));
 				// book price
@@ -97,6 +106,33 @@ public class BookServiceImpl implements bookservice.BookService {
 					b.setRating(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getFloat("averageRating"));
 				else
 					b.setRating(0);
+					//
+				if (bookitems.getJSONObject(i).getJSONObject("volumeInfo").has("ratingsCount"))
+					b.setRatingCount(bookitems.getJSONObject(i).getJSONObject("volumeInfo").getInt("ratingsCount"));
+				else
+					b.setRatingCount(0);
+					//
+
+					// TEST CONNECT TO MYSQL
+					if (!(b.getSaleability()).equals("NOT_FOR_SALE")){
+						try{
+							String query = String.format("INSERT INTO Books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
+							System.out.println(query);
+							Connection conDB = DriverManager.getConnection(
+								"jdbc:mysql://localhost:3306/book_svc",
+								"root",""
+							);
+							Statement stmt = conDB.createStatement();
+							stmt.executeUpdate(query);
+							// while(rs.next()){
+							// 	System.out.println(rs.getString(1));
+							// }
+							conDB.close();
+						}
+						catch(Exception e){
+							System.out.println(e);
+						}
+					}
 
 				// assign to array
 				bookArray[i] = b;
@@ -116,7 +152,7 @@ public class BookServiceImpl implements bookservice.BookService {
 		// Define User
 		String USER_AGENT = "Mozilla/5.0";
 		// Define Google Books API URL
-		String GET_URL = "https://www.googleapis.com/books/v1/volumes?q="+idBook;
+		String GET_URL = "https://www.googleapis.com/books/v1/volumes/"+idBook;
 
 		// Get URL and check connection
 		URL obj = new URL(GET_URL);
@@ -137,50 +173,55 @@ public class BookServiceImpl implements bookservice.BookService {
 			in.close();
 
 			// Convert string to JSON
-			JSONObject booklist = new JSONObject(response.toString());
-			JSONArray bookitems = booklist.getJSONArray("items");
-
-			// Add data from googlebooksAPI to Books array
-			Book[] bookArray = new Book[bookitems.length()+1];
+			JSONObject details = new JSONObject(response.toString());
 
 			Book b = new Book();
 			// get values, if string attributes are not present, set to "-"
 			// idBook
-			b.setIdBook(bookitems.getJSONObject(0).getString("id"));
+			b.setIdBook(details.getString("id"));
 			// book title
-			b.setTitle(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getString("title"));
+			b.setTitle(details.getJSONObject("volumeInfo").getString("title"));
 			// book author
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("authors"))
-				b.setAuthor(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
+			if (details.getJSONObject("volumeInfo").has("authors"))
+				b.setAuthor(details.getJSONObject("volumeInfo").getJSONArray("authors").getString(0));
 			else
-				b.setAuthor("-");
+				b.setAuthor("Anonymous");
 			// book image
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("imageLinks"))
-				b.setCover(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
+			if (details.getJSONObject("volumeInfo").has("imageLinks"))
+				b.setCover(details.getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("thumbnail"));
 			else
-				b.setCover("-");
+				b.setCover("https://www.freeiconspng.com/uploads/no-image-icon-4.png");
 			// book category
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("categories"))
-				b.setCategory(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getJSONArray("categories").getString(0));
+			if (details.getJSONObject("volumeInfo").has("categories")){
+				String cat = details.getJSONObject("volumeInfo").getJSONArray("categories").getString(0);
+				cat = cat.replace("'","");
+				b.setCategory(cat);
+			}
 			else
 				b.setCategory("-");
 			// book description
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("description"))
-				b.setDescription(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getString("description"));
+			if (details.getJSONObject("volumeInfo").has("description"))
+				b.setDescription(details.getJSONObject("volumeInfo").getString("description"));
 			else
-				b.setDescription("-");
+				b.setDescription("No description yet.");
 			// book saleability
-			b.setSaleability(bookitems.getJSONObject(0).getJSONObject("saleInfo").getString("saleability"));
+			b.setSaleability(details.getJSONObject("saleInfo").getString("saleability"));
 			// book price
-			if (bookitems.getJSONObject(0).getJSONObject("saleInfo").has("retailPrice"))
-				b.setPrice(bookitems.getJSONObject(0).getJSONObject("saleInfo").getJSONObject("retailPrice").getDouble("amount"));
+			if (details.getJSONObject("saleInfo").has("retailPrice"))
+				b.setPrice(details.getJSONObject("saleInfo").getJSONObject("retailPrice").getDouble("amount"));
 			else
 				b.setPrice(0);
 			// book average rating
-			if (bookitems.getJSONObject(0).getJSONObject("volumeInfo").has("averageRating"))
-				b.setRating(bookitems.getJSONObject(0).getJSONObject("volumeInfo").getFloat("averageRating"));
+			if (details.getJSONObject("volumeInfo").has("averageRating"))
+				b.setRating(details.getJSONObject("volumeInfo").getFloat("averageRating"));
 			else
 				b.setRating(0);
+			// rating count
+			if (details.getJSONObject("volumeInfo").has("ratingsCount"))
+				b.setRatingCount(details.getJSONObject("volumeInfo").getInt("ratingsCount"));
+			else
+				b.setRatingCount(0);
+
 			return b;
 		}
 		else { // if not success

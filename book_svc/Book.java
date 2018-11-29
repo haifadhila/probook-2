@@ -15,6 +15,7 @@ public class Book implements Serializable{
 	private String saleability;
 	private double price;
 	private float rating;
+	private int ratingCount;
 
 	// Book ID
 	public String getIdBook(){
@@ -94,7 +95,16 @@ public class Book implements Serializable{
 	}
 
 	public void setRating(float rating){
-		this.price = price;
+		this.rating = rating;
+	}
+
+	// Book Rating Count
+	public int getRatingCount(){
+		return ratingCount;
+	}
+
+	public void setRatingCount(int ratingCount){
+		this.ratingCount = ratingCount;
 	}
 
 
