@@ -10,6 +10,7 @@ angular.module('searchBook',[]).controller('SearchCon', function($scope){
     while (result.books.length > 0){
       result.books.pop();
     }
+    document.getElementById("loader").style.display = "block";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -19,7 +20,9 @@ angular.module('searchBook',[]).controller('SearchCon', function($scope){
         });
         $scope.$apply();
         console.log(result.books);
+        document.getElementById("loader").style.display = "none";
       }
+
     };
     console.log(result.keyword);
     xhttp.open("POST", "search?search="+result.keyword, true);
