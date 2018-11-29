@@ -101,12 +101,12 @@ function get_auth_cookie() {
 
 function set_auth_cookie($token) {
   // Make this a session cookie
-  setcookie('authToken', $token, 0, make_url(''), '', false, true);
+  setcookie('authToken', $token, 0, urlencode(make_url('')), '', false, true);
 }
 
 function unset_auth_cookie() {
   if (isset($_COOKIE['authToken']))
-    setcookie('authToken', false, 1, make_url(''), '', false, true);
+    setcookie('authToken', false, 1, urlencode(make_url('')), '', false, true);
 }
 
 // Get user from DB
