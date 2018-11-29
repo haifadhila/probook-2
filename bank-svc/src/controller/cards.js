@@ -1,4 +1,4 @@
-const conn = require('../db/connector')
+const pool = require('../db/connector')
 
 let validate = (req, res) => {
 }

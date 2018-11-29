@@ -1,4 +1,4 @@
-const conn = require('../db/connector')
+const pool = require('../db/connector')
 
 let transfer = (req, res) => {
 

@@ -1,4 +1,4 @@
-const conn = require('../db/connector')
+const pool = require('../db/connector')
 const transactions = require('./transactions')
 
 let show = (req, res) => {
