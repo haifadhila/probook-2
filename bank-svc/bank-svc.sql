@@ -11,14 +11,15 @@ CREATE TABLE IF NOT EXISTS `bank_svc`.`accounts` (
   UNIQUE KEY (`card_number`)
 ) ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `bank_svc`.`transfers` (
+CREATE TABLE IF NOT EXISTS `bank_svc`.`transactions` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `sender_acct` INT NOT NULL,
-  `receiver_acct` INT NOT NULL,
+  `acct` INT NOT NULL,
   `amount` BIGINT NOT NULL COMMENT 'in cents',
+  `type` ENUM('deposit', 'withdrawal', 'transfer', 'correction') NOT NULL,
+  `remarks` text,
   `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`sender_acct`) REFERENCES `bank_svc`.`accounts` (`id`),
-  FOREIGN KEY (`receiver_acct`) REFERENCES `bank_svc`.`accounts` (`id`)
+  KEY (`acct`),
+  FOREIGN KEY (`acct`) REFERENCES `bank_svc`.`accounts` (`id`)
 ) ENGINE = InnoDB;
 
