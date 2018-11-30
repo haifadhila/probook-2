@@ -17,6 +17,10 @@ if (isset($content['email'])) {
     $res['email'] = check_email($content['email']);
 }
 
+if (isset($content['cardnumber'])){
+    $res['cardnumber'] = check_cardnumber($content['cardnumber']);
+}
+
 $db_conn->commit();
 
 header('content-type: application/json; charset=utf-8');
