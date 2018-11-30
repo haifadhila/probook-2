@@ -12,17 +12,15 @@ create table if not exists Users (
 ) engine=InnoDB default charset=utf8mb4;
 
 create table if not exists Books (
-  idBook int not null auto_increment,
+  idBook varchar(50) not null,
   title varchar(70) not null,
-  author varchar(70) not null,
   cover varchar(64) default null,
-  description text,
   primary key (idBook)
 ) engine=InnoDB default charset=utf8mb4;
 
 create table if not exists Transactions (
   idTransaction int not null auto_increment,
-  idBook int not null,
+  idBook varchar(50) not null,
   idUser int not null,
   orderDate date not null,
   quantity int not null,
