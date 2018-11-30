@@ -42,7 +42,7 @@
                         <div class='rowcontainer flexstart mediummarginleft smallmargintop nunito'>
                             <div class='mediumfont mediumflex textalignright'>Card Number</div>
                             <input placeholder="Input card number" class='smallmarginleft mediumfont largeflex' id='card-number' name='cardnumber' />
-                            <img class='checkmark small-margin verysmallmarginleft' id='' src='<?php es('img/clear.png');?>'>
+                            <img class='checkmark small-margin verysmallmarginleft' id='cardcheck' src='<?php es('img/clear.png');?>'>
                         </div>
                         <div class='rowcontainer mediummarginleft smallmargintop mediumfont largeflex '>
                                 <a href="<?php eu('login')?>" class="nunito">

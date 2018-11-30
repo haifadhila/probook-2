@@ -23,24 +23,16 @@ function check_email($email) {
   return !($num > 0);
 }
 
-function check_cardnumber($method, $url, $cardnumber = false){
-//    global $db_conn;
-//    if (strlen($cardnumber) > 16 || strlen($cardnumber) < 1)
-//        return false;
-//    $stmt = $db_conn->prepare('SELECT count(*) as c from Users where card_number=?');
-//    $stmt->execute([$cardnumber]);
-//    $num = intval($stmt->fetchColumn());
-//    return !($num > 0);
+function check_cardnumber($cardnumber){
     global $bank_svc_url;
     $curl = curl_init();
     $url = "$bank_svc_url/card/$cardnumber";
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-        $result = curl_exec($curl);
-        $info = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($url);
+    $result = curl_exec($curl);
+    $info = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
     return ($info == 200);
 }
 

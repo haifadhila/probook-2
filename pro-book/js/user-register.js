@@ -7,7 +7,7 @@ function redElement(elementId, red) {
   return red;
 }
 
-var checkState = {'usercheck': 0, 'emailcheck': 0};
+var checkState = {'usercheck': 0, 'emailcheck': 0, 'cardcheck': 0};
 
 function showCheckmark(checkmarkId, show) {
   // show is tri-state: 1=check, 0=hidden, -1=cross
@@ -39,8 +39,8 @@ function checkUnique(inputId, requestKey, checkmarkId) {
 }
 
 function validateName() {
-  name = document.getElementById('profile-name').value;
-  return (name.length > 0 && name.length <= 50);
+  realname = document.getElementById('profile-name').value;
+  return (realname.length > 0 && realname.length <= 50);
 }
 
 function validateUsername() {
@@ -77,8 +77,9 @@ function validatePhone() {
 }
 
 function validateCardNumber() {
-    cardnumber = document.getElementById('card-number').value;
-    return (cardnumber.length > 0 && cardnumber.length < 16);
+  regex = /^[0-9]{16}$/;
+  cardnumber = document.getElementById('card-number').value;
+  return cardnumber.match(regex);
 }
 
 function redName() {
@@ -109,6 +110,10 @@ function redPhone() {
   return redElement('profile-phone', !validatePhone());
 }
 
+function redCardNumber() {
+    return redElement('card-number', !validateCardNumber());
+}
+
 document.getElementById('profile-name').onblur = redName;
 document.getElementById('profile-username').onblur = function () {
   if (!redUsername())
@@ -127,6 +132,12 @@ document.getElementById('profile-password').onblur = function () {
   if (document.getElementById('profile-confirm-password').value.length > 0)
     redConfirmPassword();
 };
+document.getElementById('card-number').onblur = function () {
+  if (!redCardNumber())
+      checkUnique('card-number', 'cardnumber', 'cardcheck');
+  else
+      showCheckmark('cardcheck', 0);
+};
 document.getElementById('profile-confirm-password').onblur = redConfirmPassword;
 document.getElementById('profile-address').onblur = redAddress;
 document.getElementById('profile-phone').onblur = redPhone;
@@ -134,7 +145,7 @@ document.getElementById('profile-phone').onblur = redPhone;
 document.getElementById('registerform').addEventListener("submit", function(event) {
   var invalid = [
     redName(), redUsername(), redEmail(), redPassword(), redConfirmPassword(),
-    redAddress(), redPhone(), function () { for (var k in checkState) if (checkState[k] == -1) return true; return false; }()
+    redAddress(), redPhone(), redCardNumber(), function () { for (var k in checkState) if (checkState[k] == -1) return true; return false; }()
   ];
   if (invalid.some(x => x))
     event.preventDefault();
