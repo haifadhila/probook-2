@@ -35,8 +35,8 @@ let transact = (req, res) => {
                 //return await transactions.makeCorrection(txnReq)
                 //break
             case 'transfer':
-                //return await transactions.doTransfer(txnReq)
-                //break
+                return await transactions.doTransfer(txnReq)
+                break
             default:
                 throw 'not supported'
             }

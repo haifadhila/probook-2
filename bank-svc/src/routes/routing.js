@@ -1,4 +1,6 @@
 const express = require('express')
+var bodyparser = require('body-parser')
+var urlencodedParser = bodyparser.urlencoded({extended: false})
 
 const cards = require('../controller/cards')
 const accounts = require('../controller/accounts')

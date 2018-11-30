@@ -103,6 +103,42 @@ let makeWithdrawal = async (req) => {
     })
 }
 
+let doTransfer = async (req) => {
+    const txnType = 'transfer'
+    req = normaliseTxnRequest(req)
+    return await asyncDb.withTransaction(async (conn) => {
+        let result = await asyncDb.query(
+            conn,
+            'update accounts set balance = balance - ? where id=?',
+            [req.amount, req.accno])
+            console.log(req.accno)
+        if (result.affectedRows < 1)
+            throw new TransactionalError('no sender account')
+        result = await asyncDb.query(conn, getBalanceQuery, [req.accno])
+        let finalBalance = result[0].balance
+        if (finalBalance < 0)
+            throw new TransactionalError('not enough funds')
+        result = await asyncDb.query(
+            conn, insertTxnQuery,
+            [req.accno, req.amount, txnType, req.remarks])
+
+        result = await asyncDb.query(
+            conn,
+            'update accounts set balance = balance + ? where id=?',
+            [req.amount, req.receiverno])
+        if (result.affectedRows < 1)
+            throw new TransactionalError('no receiver account')
+
+        result = await asyncDb.query(
+            conn, insertTxnQuery,
+            [req.receiverno, req.amount, txnType, req.remarks])
+        let txnid = result.insertId
+        let txnresult = makeTxnResult(req, txnid, txnType, finalBalance)
+        txnresult.recvno = req.receiverno
+        return txnresult
+    })
+}
+
 module.exports = {
     TransactionalError,
     byId,
@@ -110,5 +146,5 @@ module.exports = {
     makeDeposit,
     makeWithdrawal,
     //makeCorrection,
-    //doTransfer
+    doTransfer
 }
