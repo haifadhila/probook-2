@@ -1,7 +1,11 @@
 # Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web
 
 ## Garis Besar Aplikasi
+<<<<<<< HEAD
 Pada Tugas Besar 2 Pengembangan Aplikasi Berbasis Web ini kami melakukan peningkatan fitur dan pembaruan pada Pro Book dimana kami menggunakan arsitektur REST dan SOAP. Aplikasi ini menggunakan webservice bank dan webservice buku. Pada tugas ini juga digunakan Google Books API yang menyediakan data-data buku. Pada aplikasi ini juga terdapat tiga basis data yang digunakan yaitu basis data probook, bankservice, dan bookservice.
+=======
+Pada Tugas Besar 2 Pengembangan Aplikasi Berbasis Web ini kami melakukan peningkatan fitur dan pembaruan pada Pro Book dimana kami menggunakan arsitektur REST dan SOAP. Aplikasi ini menggunakan webservice bank dan webservice buku. Pada tugas ini juga digunakan Google Books API yang menyediakan data-data buku. Pada aplikasi ini juga terdapat tiga basis data yang digunakan yaitu basis data probook, bankservice, dan bookservice. 
+>>>>>>> b39ec120657bc58506a826bfc007d4ef3468e21b
 
 ### Basis Data
 Basis Data ProBook : Basis data ini terdiri dari lima tabel yaitu **authtokens**, **books**, **reviews**, **transactions**, dan **users**. Tabel **authtokens** memiliki atribut clientlp, expiry, idToken, idUser, userAgentHash. Tabel **books** memiliki atribut cover, idBook, dan title. Tabel **reviews** memiliki atribut comment, idTransaction, dan rating. Tabel **transactions** memiliki atribut idBook, idTransaction, idUser, orderDate, dan quantity. Tabel **users** memiliki atribut address, card_number, email, idUser, name, password, phone, picture, dan username.
@@ -41,6 +45,7 @@ SOAP :
 8. Create Book Recommender : 13516103
 
 Perubahan Web app :
+<<<<<<< HEAD
 1. Halaman My Profile : 13516022
 2. Halaman Edit Profile : 13516022
 3. Halaman Register : 13516022
@@ -48,3 +53,10 @@ Perubahan Web app :
 5. Halaman Browse : 13516076
 6. Tampilan Search Result (AngularJS) : 13516076
 7. Halaman Detail Buku : 13516076
+=======
+1. Halaman My Profile : 13516022 
+2. Halaman Edit Profile : 13516022
+3. Halaman Register : 13516022
+4. Halaman Browse : 13516103
+
+>>>>>>> b39ec120657bc58506a826bfc007d4ef3468e21b

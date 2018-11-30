@@ -9,7 +9,7 @@
     <?php foreach ($results as $result) { ?>
       <div class='historycontent'>
         <div class='bookdetail'>
-          <div class='booking'><img class='image' src='<?php es("uploadimg/${result['cover']}");?>'></div>
+          <div class='booking'><img class='image' src='<?php echo $result['cover'];?>'></div>
           <div class='book1'>
             <div class='bookname'><?php e($result['title']);?></div>
             <div class='countbook'><span>Jumlah :&nbsp;</span><span id='count'><?php e($result['quantity']);?></span></div>

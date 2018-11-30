@@ -5,12 +5,12 @@
 
   <body>
       <?php require 'views/header.php'; ?>
-      <div class="header">    
+      <div class="header">
             <div class ="">
                 <h1 class="bookname"><?php e($result['title']);?></h1>
                 <div class="author"><?php e($result['author']);?></div>
             </div>
-            <img class='image' src='<?php es("uploadimg/${result['cover']}");?>'>
+            <img class='image' src='<?php echo $result['cover'];?>'>
       </div>
       <form method="POST" id="ratingcomment"action='<?php eu("review")?>'>
             <div class="rating">Add Rating</div>
@@ -29,17 +29,9 @@
             <a href="<?php eu('history');?>">
               <input type='button' id='backbt' value='Back'>
             </a>
-              <input type='submit' id='submitbt' value ="submit"/>  
-          </div>  
+              <input type='submit' id='submitbt' value ="submit"/>
+          </div>
       </form>
       <script src="<?php es("js/history-review.js");?>"></script>
   </body>
 </html>
-
-            
-          
-
-
-
-
-
