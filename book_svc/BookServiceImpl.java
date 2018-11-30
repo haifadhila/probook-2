@@ -9,6 +9,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.Set;
 
 // For JSON
@@ -30,6 +31,10 @@ public class BookServiceImpl implements bookservice.BookService {
     // GET BOOKS: TO RETURN BOOK RESULTS FROM SEARCHBOOK
     @Override
     public Book[] getBooks(String keyword) throws IOException, JSONException {
+        return getBooksQuery("intitle", keyword);
+    }
+
+    protected Book[] getBooksQuery(String operator, String keyword) throws IOException, JSONException {
 
         // Replace whitespace to "+" for keyword
         keyword = keyword.replace(" ","+");
@@ -37,7 +42,7 @@ public class BookServiceImpl implements bookservice.BookService {
         // Define User
         String USER_AGENT = "Mozilla/5.0";
         // Define Google Books API URL
-        String GET_URL = "https://www.googleapis.com/books/v1/volumes?q=intitle:"+keyword;
+        String GET_URL = "https://www.googleapis.com/books/v1/volumes?q="+operator+":"+keyword;
 
         // Get URL and check connection
         URL obj = new URL(GET_URL);
@@ -244,8 +249,9 @@ public class BookServiceImpl implements bookservice.BookService {
 
         // Query book details dari database
         Book b = new Book();
+        Connection connectToDB = null;
         try {
-            Connection connectToDB = DriverManager.getConnection("jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
+            connectToDB = DriverManager.getConnection("jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
                                                                  "root","");
             try {
                 String queryDB = String.format("SELECT idBook, price, category FROM transactions NATURAL JOIN books WHERE idBook='%s'",idBook); //input query
@@ -288,19 +294,63 @@ public class BookServiceImpl implements bookservice.BookService {
             }
 
             try {
-                //foo
+                PreparedStatement st = connectToDB.prepareStatement("INSERT INTO transactions (idBook, quantity) VALUES (?, ?)");
+                st.setString(1, b.getIdBook());
+                st.setInt(2, qty);
+                st.executeUpdate();
+            } catch (Exception e) {
+                System.out.println(e);
+                return false;
             }
 
             return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return false;
         } finally {
-            connectToDB.close();
+            if (connectToDB != null) {
+                try {
+                    connectToDB.close();
+                } catch (SQLException e) { /* eat it */ }
+            }
         }
     }
 
     // RECOMMEND BOOK: TO RETURN RECOMMENDED BOOK BASED ON CATEGORY
     @Override
-    public Book[] recommendBooks(String category){
-        return new Book[10];
+    public Book recommendBook(String category) throws IOException {
+        Connection conn = null;
+        Random rand = new Random();
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
+                                               "root","");
+            PreparedStatement st = conn.prepareStatement("SELECT books.idBook, SUM(quantity) AS total FROM transactions JOIN books ON transactions.idBook = books.idBook WHERE books.category=? GROUP BY books.idBook ORDER BY total DESC LIMIT 1");
+            st.setString(1, category);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                // we have a book!
+                String idBook = rs.getString(1);
+                rs.close();
+                return getBookDetail(idBook);
+            } else {
+                // get a random book
+                try {
+                    Book books[] = getBooksQuery("subject", category);
+                    return books[rand.nextInt(books.length)];
+                } catch (JSONException e) {
+                    return null;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) { /* eat it */ }
+            }
+        }
     }
 
 }

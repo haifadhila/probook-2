@@ -22,5 +22,5 @@ public interface BookService{
 	public boolean buyBook(String idBook, int qty, String senderNum) throws IOException;
 
 	@WebMethod
-	public Book[] recommendBooks(String category);
+	public Book recommendBook(String category) throws IOException;
 }

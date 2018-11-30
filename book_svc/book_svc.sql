@@ -49,8 +49,7 @@ DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE `transactions` (
   `idTransaction` int(11) NOT NULL AUTO_INCREMENT,
   `idBook` varchar(50) NOT NULL,
-  `idUser` int(11) NOT NULL,
-  `orderDate` date NOT NULL,
+  `orderDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`idTransaction`),
   KEY `idBook` (`idBook`),
