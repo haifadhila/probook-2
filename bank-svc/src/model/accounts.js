@@ -19,6 +19,17 @@ let byId = async (id) => {
         return rowToResult(results[0])
 }
 
+let byCardNo = async (cardno) => {
+    let results = await asyncDb.poolQuery(
+        'select id, card_number from accounts where card_number=?',
+        [cardno])
+    if (results.length < 1)
+        return null
+    else
+        return rowToResult(results[0])
+}
+
 module.exports = {
-    byId
+    byId,
+    byCardNo
 }
