@@ -41,6 +41,9 @@
   ");
   $reviewstmt->execute([$detail->idBook, $detail->title, $detail->author, $detail->cover, $detail->idBook]);
 
+  // Get book recommendations
+  $rec = $soap->recommendBook($detail->category);
+
   require 'views/book-detail.php';
 
 ?>
