@@ -1,6 +1,7 @@
 <?php require 'include/template_top.php';?>
     <link rel='stylesheet' href='../css/header.css'>
     <link rel='stylesheet' href='../css/profile.css'>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
   </head>
   <body>
     <?php include 'views/header.php';?>
@@ -18,17 +19,17 @@
         My Profile</h1>
       <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
         <img class='smallimg noborder' src='../img/username-logo.png'>
-        <div class='mediumfont helvetica mediumflex smallpaddingleft'>Username</div>
+        <div class='mediumfont helvetica mediumflex smallpaddingleft nunito'>Username</div>
         <div class='mediumfont helvetica largeflex'>@<?php e($result['username'])?></div>
       </div>
       <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
         <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src='<?php es('img/email-logo.png');?>'>
-        <div class='mediumfont helvetica mediumflex'>Email</div>
+        <div class='mediumfont helvetica mediumflex nunito'>Email</div>
         <div class='mediumfont helvetica largeflex'><?php e($result['email'])?></div>
       </div>
       <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
         <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src='<?php es('img/address-logo.png');?>'>
-        <div class='mediumfont helvetica mediumflex smallpaddingleft'>Address</div>
+        <div class='mediumfont helvetica mediumflex smallpaddingleft nunito'>Address</div>
         <div class='mediumfont helvetica largeflex'><?php e($result['address'])?></div>
       </div>
       <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>

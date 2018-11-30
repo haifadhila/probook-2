@@ -272,6 +272,10 @@ p{
   margin-right: 87.7px;
 }
 
+.nunito{
+  font-family: 'Nunito', sans-serif;
+}
+
 input[type=submit] {
   background-color:white;
   border-color: #f26600;

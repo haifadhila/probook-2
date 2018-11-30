@@ -4,6 +4,9 @@
   display: flex;
   flex-direction: column;
 }
+.nunito{
+  font-family: 'Nunito', sans-serif;
+}
 .rowcontainer {
   display: flex;
   flex-direction: row;
