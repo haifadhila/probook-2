@@ -122,10 +122,10 @@ public class BookServiceImpl implements bookservice.BookService {
                     // TEST CONNECT TO MYSQL
                     if (!(b.getSaleability()).equals("NOT_FOR_SALE")){
                         try{
-                            String query = String.format("INSERT INTO Books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
+                            String query = String.format("INSERT INTO books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
                             System.out.println(query);
                             Connection conDB = DriverManager.getConnection(
-                                                                           "jdbc:mysql://localhost:3306/book_svc",
+                                                                           "jdbc:mysql://localhost:3306/booksvc",
                                                                            "root",""
                                                                            );
                             Statement stmt = conDB.createStatement();
