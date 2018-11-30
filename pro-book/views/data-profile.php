@@ -36,6 +36,11 @@
         <div class='mediumfont helvetica mediumflex smallpaddingleft'>Phone Number</div>
         <div class='mediumfont helvetica largeflex'><?php e($result['phone'])?></div>
       </div>
+        <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
+            <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src='<?php es('img/address-logo.png');?>'>
+            <div class='mediumfont helvetica mediumflex smallpaddingleft'>Card Number</div>
+            <div class='mediumfont helvetica largeflex'><?php e($result['address'])?></div>
+        </div>
     </div>
   </body>
 </html>
