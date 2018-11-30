@@ -76,6 +76,11 @@ function validatePhone() {
   return phone.match(regex);
 }
 
+function validateCardNumber() {
+    cardnumber = document.getElementById('card-number').value;
+    return (cardnumber.length > 0 && cardnumber.length < 16);
+}
+
 function redName() {
   return redElement('profile-name', !validateName());
 }

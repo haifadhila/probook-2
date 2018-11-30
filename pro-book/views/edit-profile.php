@@ -1,4 +1,5 @@
 <?php require 'include/template_top.php';?>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel='stylesheet' href='<?php es('css/header.css');?>'>
     <link rel='stylesheet' href='<?php es('css/profile.css');?>'>
   </head>
@@ -9,7 +10,7 @@
         Edit Profile</h1>
       <div class='rowcontainer flexcenter smallmargintop mediummarginleft mediummarginbottom'>
         <img class='normalmarginleft mediumimg smallborder solidborder' src='<?php es("uploadimg/${result['picture']}");?>'>
-        <div class='columncontainer abnormalmarginleft'>
+        <div class='columncontainer abnormalmarginleft nunito'>
           <label for='dp' class='mediumfont'>Update profile picture</label>
           <div class='rowcontainer normalmargintop'>
             <input type='text' class='normalfont smallheight morewidthcontainer selfaligncenter' id='profile-picture' name='fakepicture' placeholder="Input file picture" disabled>
@@ -20,19 +21,19 @@
       </div>
       <div class='columncontainer'>
         <div class='rowcontainer flexstart mediummarginleft smallmargintop smallmarginbottom'>
-          <div class='normalfont smallflex normalmarginleft'>Name</div>
+          <div class='normalfont smallflex normalmarginleft nunito'>Name</div>
           <input type='text' class='smallmarginleft normalfont mediumflex normalmarginright' id='profile-name' name='name' value='<?php e($result['name']);?>'>
         </div>
         <div class='rowcontainer flexstart mediummarginleft smallmargintop smallmarginbottom'>
-          <div class='normalfont smallflex normalmarginleft'>Address</div>
+          <div class='normalfont smallflex normalmarginleft nunito'>Address</div>
           <textarea class='smallmarginleft normalfont mediumflex normalmarginright' rows='6' id='profile-address' name='address'><?php e($result['address']);?></textarea>
         </div>
         <div class='rowcontainer flexstart mediummarginleft smallmargintop smallmarginbottom'>
-          <div class='normalfont smallflex normalmarginleft'>Phone Number</div>
+          <div class='normalfont smallflex normalmarginleft nunito'>Phone Number</div>
           <input type='text' class='smallmarginleft normalfont mediumflex normalmarginright' id='profile-phone' name='phone' value='<?php e($result['phone']);?>'>
         </div>
         <div class='rowcontainer flexstart mediummarginleft smallmargintop smallmarginbottom'>
-          <div class='normalfont smallflex normalmarginleft'>Card Number</div>
+          <div class='normalfont smallflex normalmarginleft nunito'>Card Number</div>
           <input type='text' class='smallmarginleft normalfont mediumflex normalmarginright' id='profile-phone' name='phone' value='<?php e($result['phone']);?>'>
         </div>
       </div>
