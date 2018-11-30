@@ -8,6 +8,7 @@ $password_2 = $_POST['confirm-password'];
 $email = $_POST['email'];
 $address = $_POST['address'];
 $phone = $_POST['phone'];
+$card_number = $_POST['cardnumber'];
 
 global $db_conn;
 
@@ -21,9 +22,9 @@ try {
   if (!check_email($email))
     throw new Exception('email unavailable');
 
-  $stmt = $db_conn->prepare('insert into Users (name, username, password, email, address, phone)
-    values(?, ?, ?, ?, ?, ?)');
-  $stmt->execute([$name, $username, $password, $email, $address, $phone]);
+  $stmt = $db_conn->prepare('insert into Users (name, username, password, email, address, phone, card_number)
+    values(?, ?, ?, ?, ?, ?, ?)');
+  $stmt->execute([$name, $username, $password, $email, $address, $phone, $card_number]);
 
   $new_uid = intval($db_conn->lastInsertId());
   // Log in to new account

@@ -8,10 +8,33 @@ function validateAddress() {
   return (address.length > 0 && address.length <= 140);
 }
 
+function checkExist(inputId, requestKey) {
+    input = document.getElementById(inputId).value;
+    xhr = new XMLHttpRequest();
+    obj = {};
+    obj[requestKey] = input;
+    content = JSON.stringify(obj);
+    xhr.open('POST', probookPageBase + 'register/validate');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 200) {
+            response = JSON.parse(this.responseText);
+            redElement(inputId, !response[requestKey]);
+        }
+    };
+    xhr.send(content);
+}
+
 function validatePhone() {
   regex = /^[+\-\*#0-9]{9,12}$/;
   phone = document.getElementById('profile-phone').value;
   return phone.match(regex);
+}
+
+function validateCardNumber() {
+    regex = /^[0-9]{16}$/;
+    cardnumber = document.getElementById('card-number').value;
+    return cardnumber.match(regex);
 }
 
 function redElement(elementId, red) {
@@ -35,18 +58,25 @@ function redPhone() {
   return redElement('profile-phone', !validatePhone());
 }
 
+function redCardNumber() {
+    return redElement('card-number', !validateCardNumber());
+}
+
 document.getElementById('profile-name').onblur = redName;
 document.getElementById('profile-address').onblur = redAddress;
 document.getElementById('profile-phone').onblur = redPhone;
+document.getElementById('card-number').onblur = function () {
+    if (!redCardNumber())
+        checkExist('card-number', 'cardnumber');
+};
 
 document.getElementById('updateform').addEventListener("submit", function(event) {
   var invalid = [
-    redName(), redAddress(), redPhone()
+    redName(), redAddress(), redPhone(), redCardNumber()
   ];
   if (invalid.some(x => x))
     event.preventDefault();
 });
-
 
 document.getElementById('dp-file').onchange = function() {
   var str = this.value;
