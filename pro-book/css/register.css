@@ -265,6 +265,10 @@ p{
   float: left;
 }
 
+.small-margin{
+  margin-right: 15px;
+}
+
 .textalignright{
   text-align: right;
 }

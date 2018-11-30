@@ -13,14 +13,14 @@
                             <input type='text' placeholder="Input name" class='smallmarginleft mediumfont largeflex verylargemarginright' id='profile-name' name='name'>
                         </div>
                         <div class='rowcontainer flexstart mediummarginleft smallmargintop '>
-                            <div class='mediumfont largeflex textalignright nunito'>Username</div>
+                            <div class='mediumfont mediumflex textalignright nunito'>Username</div>
                             <input type='text' placeholder="Input username" class='smallmarginleft mediumfont mediumflex' id='profile-username' name='username'>
-                            <img class='checkmark marginright verysmallmarginleft' id='usercheck' src='<?php es('img/clear.png');?>'>
+                            <img class='checkmark small-margin verysmallmarginleft' id='usercheck' src='<?php es('img/clear.png');?>'>
                         </div>
                         <div class='rowcontainer flexstart mediummarginleft smallmargintop nunito'>
                                 <div class='mediumfont mediumflex textalignright'>Email</div>
                                 <input type='text' placeholder="Input email" class='smallmarginleft mediumfont mediumflex' id='profile-email' name='email'>
-                                <img class='checkmark marginright verysmallmarginleft' id='emailcheck' src='<?php es('img/clear.png');?>'>
+                                <img class='checkmark small-margin verysmallmarginleft' id='emailcheck' src='<?php es('img/clear.png');?>'>
                         </div>
 
                         <div class='rowcontainer flexstart mediummarginleft smallmargintop nunito'>
@@ -42,6 +42,7 @@
                         <div class='rowcontainer flexstart mediummarginleft smallmargintop nunito'>
                             <div class='mediumfont mediumflex textalignright'>Card Number</div>
                             <input placeholder="Input card number" class='smallmarginleft mediumfont largeflex verylargemarginright' id='card-number' name='cardnumber' />
+                            <img class='checkmark small-margin verysmallmarginleft' id='usercheck' src='<?php es('img/clear.png');?>'>
                         </div>
                         <div class='rowcontainer mediummarginleft smallmargintop mediumfont largeflex '>
                                 <a href="<?php eu('login')?>" class="nunito">
