@@ -4,6 +4,15 @@ const getBalanceQuery = 'select balance from accounts where id=?'
 const insertTxnQuery = 'insert into transactions ' +
       '(acct, amount, type, remarks) values (?, ?, ?, ?)'
 
+class TransactionalError extends Error {
+    constructor(msg = 'Transactional error', ...params) {
+        super(...params)
+        if (Error.captureStackTrace)
+            Error.captureStackTrace(this, TransactionalError)
+        this.msg = msg
+    }
+}
+
 let rowToResult = (row) => {
     return {
         txnid: row.id,
@@ -33,71 +42,69 @@ let byAccount = async (accId) =>
         [accId])
     ).map(rowToResult)
 
-let makeDeposit = async (req) => {
-    const txnType = 'deposit'
-    if (!Number.isInteger(req.amount) || !Number.isInteger(req.accno))
-        throw 'bad params'
-    if (req.amount <= 0 || req.type !== txnType)
-        throw 'bad params'
+let normaliseTxnRequest = (req) => {
+    if (!Number.isInteger(req.amount) || !Number.isInteger(req.accno) ||
+        req.amount <= 0 ||
+        (req.remarks !== undefined && typeof(req.remarks) !== 'string'))
+        throw new TransactionalError('bad params')
     if (req.remarks === undefined)
         req.remarks = null
+    return req
+}
+
+let makeTxnResult = (req, txnid, txnType, finalBalance) => ({
+    txnid: txnid,
+    accno: req.accno,
+    type: txnType,
+    amount: req.amount,
+    balance: finalBalance,
+    remarks: req.remarks
+})
+
+let makeDeposit = async (req) => {
+    const txnType = 'deposit'
+    req = normaliseTxnRequest(req)
     return await asyncDb.withTransaction(async (conn) => {
         let result = await asyncDb.query(
             conn,
             'update accounts set balance = balance + ? where id=?',
             [req.amount, req.accno])
         if (result.affectedRows < 1)
-            throw 'no account'
+            throw new TransactionalError('no account')
         result = await asyncDb.query(conn, getBalanceQuery, [req.accno])
         let finalBalance = result[0].balance
         result = await asyncDb.query(
             conn, insertTxnQuery,
             [req.accno, req.amount, txnType, req.remarks])
         let txnid = result.insertId
-        return {
-            txnid: txnid,
-            accno: req.accno,
-            type: txnType,
-            amount: req.amount,
-            balance: finalBalance
-        }
+        return makeTxnResult(req, txnid, txnType, finalBalance)
     })
 }
 
 let makeWithdrawal = async (req) => {
     const txnType = 'withdrawal'
-    if (!Number.isInteger(req.amount) || !Number.isInteger(req.accno))
-        throw 'bad params'
-    if (req.amount <= 0 || req.type !== txnType)
-        throw 'bad params'
-    if (req.remarks === undefined)
-        req.remarks = null
+    req = normaliseTxnRequest(req)
     return await asyncDb.withTransaction(async (conn) => {
         let result = await asyncDb.query(
             conn,
             'update accounts set balance = balance - ? where id=?',
             [req.amount, req.accno])
         if (result.affectedRows < 1)
-            throw 'no account'
+            throw new TransactionalError('no account')
         result = await asyncDb.query(conn, getBalanceQuery, [req.accno])
         let finalBalance = result[0].balance
         if (finalBalance < 0)
-            throw 'not enough funds'
+            throw new TransactionalError('not enough funds')
         result = await asyncDb.query(
             conn, insertTxnQuery,
             [req.accno, req.amount, txnType, req.remarks])
         let txnid = result.insertId
-        return {
-            txnid: txnid,
-            accno: req.accno,
-            type: txnType,
-            amount: req.amount,
-            balance: finalBalance
-        }
+        return makeTxnResult(req, txnid, txnType, finalBalance)
     })
 }
 
 module.exports = {
+    TransactionalError,
     byId,
     byAccount,
     makeDeposit,
