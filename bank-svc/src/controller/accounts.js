@@ -1,7 +1,7 @@
 const accounts = require('../model/accounts')
 const transactions = require('../model/transactions')
 
-let handleResp = (promise, onSuccess) =>
+let handleResp = (res, promise, onSuccess) =>
     promise.then(
         onSuccess
     ).catch((error) => {
@@ -10,7 +10,7 @@ let handleResp = (promise, onSuccess) =>
     })
 
 let show = (req, res) =>
-    handleResp(accounts.byId(req.params.accno), (row) => {
+    handleResp(res, accounts.byId(req.params.accno), (row) => {
         if (row == null)
             return res.sendStatus(404)
         res.send({
@@ -19,40 +19,53 @@ let show = (req, res) =>
             balance: row.balance})
     })
 
-let notSupported = (res) => {
-    res.status(500)
-    res.send({'error': 'not supported'})
-}
-
 let transact = (req, res) => {
     const txnReq = req.body
-    switch (txnReq.type) {
-    case 'deposit':
-        //transactions.makeDeposit(txnReq, handleTxnResp(res))
-        //break
-    case 'withdrawal':
-        //transactions.makeWithdrawal(txnReq, handleTxnResp(res))
-        //break
-    case 'correction':
-        //transactions.makeCorrection(txnReq, handleTxnResp(res))
-        //break
-    case 'transfer':
-        //transactions.doTransfer(txnReq, handleTxnResp(res))
-        //break
-    default:
-        return notSupported(res)
-    }
+    handleResp(
+        res,
+        (async () => {
+            switch (txnReq.type) {
+            case 'deposit':
+                return await transactions.makeDeposit(txnReq)
+                break
+            case 'withdrawal':
+                return await transactions.makeWithdrawal(txnReq)
+                break
+            case 'correction':
+                //return await transactions.makeCorrection(txnReq)
+                //break
+            case 'transfer':
+                //return await transactions.doTransfer(txnReq)
+                //break
+            default:
+                throw 'not supported'
+            }
+        })().catch(
+            (err) => {
+                if (err === 'not supported') {
+                    res.status(400)
+                    res.send({'error': 'not supported'})
+                } else if (err instanceof transactions.TransactionalError) {
+                    res.status(400)
+                    res.send({'error': err.msg})
+                } else {
+                    throw err
+                }
+            }
+        ),
+        (txnResult) => res.send(txnResult)
+    )
 }
 
 let listTransactions = (req, res) =>
-    handleResp(transactions.byAccount(req.params.accno), (rows) => {
+    handleResp(res, transactions.byAccount(req.params.accno), (rows) => {
         if (rows == null)
             return res.sendStatus(404)
         res.send(rows)
     })
 
 let listCards = (req, res) =>
-    handleResp(accounts.byId(req.params.accno), (row) => {
+    handleResp(res, accounts.byId(req.params.accno), (row) => {
         if (row == null)
             return res.sendStatus(404)
         res.send({
