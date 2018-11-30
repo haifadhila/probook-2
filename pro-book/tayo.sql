@@ -15,7 +15,8 @@ create table if not exists Users (
 create table if not exists Books (
   idBook varchar(50) not null,
   title varchar(70) not null,
-  cover varchar(64) default null,
+  author varchar(70) default null,
+  cover text default null,
   primary key (idBook)
 ) engine=InnoDB default charset=utf8mb4;
 
