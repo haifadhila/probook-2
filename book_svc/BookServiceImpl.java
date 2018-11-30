@@ -240,7 +240,7 @@ public class BookServiceImpl implements bookservice.BookService {
     try {
       String queryDB = String.format("SELECT idBook, price, category FROM transactions NATURAL JOIN books WHERE idBook='%s'",idBook); //input query
       Connection connectToDB = DriverManager.getConnection(
-        "jdbc:mysql://", //alamat localhost book
+        "jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
         "root",""
       );
       Statement stat = connectToDB.createStatement();
@@ -258,7 +258,7 @@ public class BookServiceImpl implements bookservice.BookService {
 
     // Lakukan request ke webservice bank
     String USER_AGENT = "Mozilla/5.0";
-    String POST_URL = "http://localhost..."; //localhost untuk transfer
+    String POST_URL = "http://localhost:3000/transfer"; //localhost untuk transfer
     String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
     URL obj = new URL(POST_URL);
 
@@ -273,7 +273,7 @@ public class BookServiceImpl implements bookservice.BookService {
     ostream.flush();
     ostream.close();
 
-    int responseCode = APIconnect.getResponseCode();
+    int responseCode = APIconnect.getResponseCode(); //Kondisi sukses
     System.out.println("POST Response Code : " + responseCode);
     if (responseCode == HttpURLConnection.HTTP_OK){
       BufferedReader br = new BufferedReader(new InputStreamReader(
