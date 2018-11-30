@@ -43,7 +43,7 @@
           </div>
           <div class='bookstar'>
   <?php     for ($i = 1; $i <= 5; $i++) {
-              if ($detail->rating >= $i) { ?>
+              if ($avgrating >= $i) { ?>
             <img class='star' src='<?php es('img/filledstar.png');?>'>
   <?php       } else { ?>
             <img class='star' src='<?php es('img/emptystar.png');?>'>
@@ -51,7 +51,7 @@
             }
   ?>
           </div>
-          <div class='bookrating'><?php e(number_format($detail->rating,1));?>&nbsp;/ 5.0</div>
+          <div class='bookrating'><?php e(number_format($avgrating,1));?>&nbsp;/ 5.0</div>
         </div>
       </div>
 <!-- ORDER -->
