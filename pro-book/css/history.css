@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 .history {
   font-size: 80px;
   color: #F26600;
-  font-family: calibri;
+  font-family: Nunito;
   margin-top: 40px;
   margin-left: 50px;
   margin-bottom: 50px;
@@ -17,7 +19,7 @@
   display: flex;
   margin-bottom: 15px;
   justify-content: space-between;
-  
+
 }
 
 .booking {
@@ -50,7 +52,7 @@
   font-size: 35px;
   font-weight: bold;
   color: #F26600;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 30px;
   padding-bottom: 0px;
 }
@@ -58,13 +60,13 @@
 .countbook {
   display: flex;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 30px;
 }
 
 .review {
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   margin-left: 30px;
 }
 
@@ -72,7 +74,7 @@
   float: right;
   border-radius: 10px;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: white;
   background-color: #00AEEF;
   border-radius: 10px;
@@ -85,14 +87,14 @@
 }
 .orderdate{
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   font-weight: bold;
   float: right;
 }
 .ordernumber{
   float:right;
   font-size: 20px;
-  font-family: helvetica;
+  font-family: Nunito;
   font-weight: bold;
   margin-top: 15px;
 }
