@@ -31,7 +31,7 @@
               <div class='bookscore'>
                 <span class='bookauthor'>{{book.author}}</span>
                 <span>&nbsp;-&nbsp;</span>
-                <span class='bookrating'>{{book.rating}}</span>
+                <span class='bookrating'>{{book.rating | number:1}}</span>
                 <span>/5.0 (</span>
                 <span class='bookvotecount'>{{book.ratingCount}}</span>
                 <span>&nbsp;votes)</span>
