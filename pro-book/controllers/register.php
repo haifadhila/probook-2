@@ -23,6 +23,19 @@ function check_email($email) {
   return !($num > 0);
 }
 
+function check_cardnumber($cardnumber){
+    global $bank_svc_url;
+    $curl = curl_init();
+    $url = "$bank_svc_url/card/$cardnumber";
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+    $result = curl_exec($curl);
+    $info = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    return ($info == 200);
+}
+
 global $router_extrapath;
 
 if ($router_extrapath === 'validate') {

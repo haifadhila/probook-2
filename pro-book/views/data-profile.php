@@ -32,11 +32,16 @@
         <div class='mediumfont helvetica mediumflex smallpaddingleft nunito'>Address</div>
         <div class='mediumfont helvetica largeflex'><?php e($result['address'])?></div>
       </div>
-      <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
-        <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src=<?php es('img/phone-logo.png');?>>
-        <div class='mediumfont helvetica mediumflex smallpaddingleft'>Phone Number</div>
-        <div class='mediumfont helvetica largeflex'><?php e($result['phone'])?></div>
-      </div>
+        <div class='rowcontainer largewidthcontainer largemarginleft flexcenter '>
+            <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright margin-bottom' src='<?php es('img/call-sign.png');?>'>
+            <div class='mediumfont helvetica mediumflex smallpaddingleft nunito margin-bottom'>Phone Number</div>
+            <div class='mediumfont helvetica largeflex margin-bottom'><?php e($result['phone'])?></div>
+        </div>
+        <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
+            <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src='<?php es('img/credit-card.png');?>'>
+            <div class='mediumfont helvetica mediumflex smallpaddingleft'>Card Number</div>
+            <div class='mediumfont helvetica largeflex'><?php e($result['card_number'])?></div>
+        </div>
     </div>
   </body>
 </html>

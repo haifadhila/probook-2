@@ -29,9 +29,9 @@ function update_image() {
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $userstmt = $db_conn->prepare('update Users
-  set name = ?, address = ?, phone = ?
+  set name = ?, address = ?, phone = ?, card_number = ?
   where idUser = ?');
-  $userstmt->execute([$_POST['name'], $_POST['address'], $_POST['phone'], $auth_user['idUser']]);
+  $userstmt->execute([$_POST['name'], $_POST['address'], $_POST['phone'], $_POST['cardnumber'], $auth_user['idUser']]);
   if(($_FILES['picture']['error'] ?? null) === UPLOAD_ERR_OK) {
     update_image();
   }
