@@ -245,72 +245,56 @@ public class BookServiceImpl implements bookservice.BookService {
         // Query book details dari database
         Book b = new Book();
         try {
-            String queryDB = String.format("SELECT idBook, price, category FROM transactions NATURAL JOIN books WHERE idBook='%s'",idBook); //input query
-            Connection connectToDB = DriverManager.getConnection(
-                                                                 //                             "jdbc:mysql://localhost:3306/book_svc",
-                                                                 //                             "root",""
-                                                                 "jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
-                                                                 "root",""
-                                                                 );
-            Statement stat = connectToDB.createStatement();
-            ResultSet res = stat.executeQuery(queryDB);
+            Connection connectToDB = DriverManager.getConnection("jdbc:mysql://localhost:3306/booksvc", //alamat localhost book
+                                                                 "root","");
+            try {
+                String queryDB = String.format("SELECT idBook, price, category FROM transactions NATURAL JOIN books WHERE idBook='%s'",idBook); //input query
+                Statement stat = connectToDB.createStatement();
+                ResultSet res = stat.executeQuery(queryDB);
 
-            while (res.next()){
-                b.setIdBook(res.getString(1));
-                //        b.setCategory(res.getString(2));
-                b.setPrice(res.getFloat(2)); //liat column berapa
-            }
-            connectToDB.close();
-        } catch (Exception e){
-            System.out.println(e);
-        }
-
-        // Lakukan request ke webservice bank
-        String USER_AGENT = "Mozilla/5.0";
-        //    String POST_URL = "http://localhost..."; //localhost untuk transfer
-        //    String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
-        String POST_URL = "http://localhost:3000/transfer"; //localhost untuk transfer
-        String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
-        URL obj = new URL(POST_URL);
-
-        //Panggil API Google Book
-        HttpURLConnection APIconnect = (HttpURLConnection) obj.openConnection();
-        APIconnect.setRequestMethod("POST");
-        APIconnect.setRequestProperty("User-Agent", USER_AGENT);
-
-        APIconnect.setDoOutput(true);
-        OutputStream ostream = APIconnect.getOutputStream();
-        ostream.write(POST_PARAM.getBytes());
-        ostream.flush();
-        ostream.close();
-
-        int responseCode = APIconnect.getResponseCode(); //Kondisi sukses
-        System.out.println("POST Response Code : " + responseCode);
-        if (responseCode == HttpURLConnection.HTTP_OK){
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                                                                         APIconnect.getInputStream()
-                                                                         ));
-
-            String inputLine = br.readLine();
-            StringBuffer response = new StringBuffer();
-            //      inputLine = br.readLine();
-
-            while (inputLine != null){
-                response.append(inputLine);
-            }
-            br.close();
-
-            System.out.println(response.toString());
-            if (response.toString().equals("true")){
-                return true;
-            } else {
+                while (res.next()){
+                    b.setIdBook(res.getString(1));
+                    b.setCategory(res.getString(3));
+                    b.setPrice(res.getFloat(2)); //liat column berapa
+                }
+            } catch (Exception e){
+                System.out.println(e);
                 return false;
             }
-        } else {
-            System.out.println("POST Request aren't working");
-            return false;
-        }
 
+            // Lakukan request ke webservice bank
+            String USER_AGENT = "Mozilla/5.0";
+            //    String POST_URL = "http://localhost..."; //localhost untuk transfer
+            //    String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
+            String POST_URL = "http://localhost:3000/transfer"; //localhost untuk transfer
+            String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
+            URL obj = new URL(POST_URL);
+
+            HttpURLConnection APIconnect = (HttpURLConnection) obj.openConnection();
+            APIconnect.setRequestMethod("POST");
+            APIconnect.setRequestProperty("User-Agent", USER_AGENT);
+
+            APIconnect.setDoOutput(true);
+            OutputStream ostream = APIconnect.getOutputStream();
+            ostream.write(POST_PARAM.getBytes());
+            ostream.flush();
+            ostream.close();
+
+            int responseCode = APIconnect.getResponseCode(); //Kondisi sukses
+            System.out.println("POST Response Code : " + responseCode);
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                System.out.println("POST Request aren't working");
+                return false;
+            }
+
+            try {
+                //foo
+            }
+
+            return true;
+        } finally {
+            connectToDB.close();
+        }
     }
 
     // RECOMMEND BOOK: TO RETURN RECOMMENDED BOOK BASED ON CATEGORY
