@@ -14,28 +14,30 @@ if (!isset($_REQUEST['search'])) {
     $data = $soap->getBooks($_REQUEST['search']);
 
     // DATABASE CONNECT (to input reviews)
-    global $db_conn;
-    $reviewstmt = $db_conn->prepare('select rating
-      from Reviews natural join Transactions natural join Users
-      where idBook = ?');
+    if ($data->item != null){
+      global $db_conn;
+      $reviewstmt = $db_conn->prepare('select rating
+        from Reviews natural join Transactions natural join Users
+        where idBook = ?');
 
-    for ($i = 0; $i < sizeof($data->item); $i++) {
-        $bookid = $data->item[$i]->idBook;
-        $reviewstmt->execute([$bookid]);
-        $reviews = $reviewstmt->fetchAll();
-        $reviewCount = count($reviews) + $data->item[$i]->ratingCount;
-        if($reviewCount == 0) {
-          $avgrating = 0;
-        }
-        else {
-          $sumrating = $data->item[$i]->ratingCount * $data->item[$i]->rating;
-          foreach ($reviews as $review) {
-            $sumrating += floatval($review['rating']);
+      for ($i = 0; $i < sizeof($data->item); $i++) {
+          $bookid = $data->item[$i]->idBook;
+          $reviewstmt->execute([$bookid]);
+          $reviews = $reviewstmt->fetchAll();
+          $reviewCount = count($reviews) + $data->item[$i]->ratingCount;
+          if($reviewCount == 0) {
+            $avgrating = 0;
           }
-          $avgrating = $sumrating / $reviewCount;
-        }
-          $data->item[$i]->rating = $avgrating;
-          $data->item[$i]->ratingCount = $reviewCount;
+          else {
+            $sumrating = $data->item[$i]->ratingCount * $data->item[$i]->rating;
+            foreach ($reviews as $review) {
+              $sumrating += floatval($review['rating']);
+            }
+            $avgrating = $sumrating / $reviewCount;
+          }
+            $data->item[$i]->rating = $avgrating;
+            $data->item[$i]->ratingCount = $reviewCount;
+      }
     }
 
     $result = json_encode($data);
