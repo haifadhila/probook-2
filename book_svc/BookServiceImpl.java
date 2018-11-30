@@ -122,10 +122,10 @@ public class BookServiceImpl implements bookservice.BookService {
                     // TEST CONNECT TO MYSQL
                     if (!(b.getSaleability()).equals("NOT_FOR_SALE")){
                         try{
-                            String query = String.format("INSERT INTO Books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
+                            String query = String.format("INSERT INTO books values ('"+b.getIdBook()+"',"+b.getPrice()+",'"+b.getCategory()+"');");
                             System.out.println(query);
                             Connection conDB = DriverManager.getConnection(
-                                                                           "jdbc:mysql://localhost:3306/book_svc",
+                                                                           "jdbc:mysql://localhost:3306/booksvc",
                                                                            "root",""
                                                                            );
                             Statement stmt = conDB.createStatement();
@@ -272,7 +272,7 @@ public class BookServiceImpl implements bookservice.BookService {
             String USER_AGENT = "Mozilla/5.0";
             //    String POST_URL = "http://localhost..."; //localhost untuk transfer
             //    String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
-            String POST_URL = "http://localhost:3000/transfer"; //localhost untuk transfer
+            String POST_URL = "http://localhost:7000/transfer"; //localhost untuk transfer
             String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
             URL obj = new URL(POST_URL);
 
