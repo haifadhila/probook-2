@@ -1,17 +1,18 @@
 <?php require 'include/template_top.php';?>
         <link rel='stylesheet' href='<?php es('css/login.css');?>'>
+        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     </head>
     <body>
         <div class="grid-container">
             <div class="polkadot">
-                <p>LOGIN</p>
+                <p class="nunito">LOGIN</p>
                 <div class='columncontainer'>
                   <form method='POST' id='loginform'>
-                    <div class='rowcontainer flexstart mediummarginleft smallmargintop '>
+                    <div class='rowcontainer flexstart mediummarginleft smallmargintop nunito'>
                         <div class='mediumfont mediumflex textalignright'>Username</div>
-                        <input type='text' class='smallmarginleft mediumfont largeflex verylargemarginright' id='username' name="username">
+                        <input type='text' class='nunito smallmarginleft mediumfont largeflex verylargemarginright' id='username' name="username">
                     </div>
-                    <div class='rowcontainer flexstart mediummarginleft smallmargintop '>
+                    <div class='nunito rowcontainer flexstart mediummarginleft smallmargintop '>
                         <div class='mediumfont mediumflex textalignright'>Password</div>
                         <input type='password' class='smallmarginleft mediumfont largeflex verylargemarginright' id='password' name="password">
                     </div>

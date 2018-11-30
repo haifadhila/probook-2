@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 .header{
     display: flex;
     justify-content: space-between;

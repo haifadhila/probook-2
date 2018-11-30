@@ -1,6 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 .columncontainer {
   display: flex;
   flex-direction: column;
+}
+.nunito{
+  font-family: 'Nunito', sans-serif;
 }
 .rowcontainer {
   display: flex;

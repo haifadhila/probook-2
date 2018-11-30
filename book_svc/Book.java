@@ -1,5 +1,4 @@
-
-package com.journaldev.jaxws.beans;
+package bookservice;
 
 import java.io.Serializable;
 
@@ -13,7 +12,10 @@ public class Book implements Serializable{
 	private String cover;
 	private String category;
 	private String description;
+	private String saleability;
 	private double price;
+	private float rating;
+	private int ratingCount;
 
 	// Book ID
 	public String getIdBook(){
@@ -69,6 +71,15 @@ public class Book implements Serializable{
 		this.description = description;
 	}
 
+	// Book Saleability
+	public String getSaleability(){
+		return saleability;
+	}
+
+	public void setSaleability(String saleability){
+		this.saleability = saleability;
+	}
+
 	// Book Price
 	public double getPrice(){
 		return price;
@@ -77,6 +88,25 @@ public class Book implements Serializable{
 	public void setPrice(double price){
 		this.price = price;
 	}
+
+	// Book Average Rating
+	public float getRating(){
+		return rating;
+	}
+
+	public void setRating(float rating){
+		this.rating = rating;
+	}
+
+	// Book Rating Count
+	public int getRatingCount(){
+		return ratingCount;
+	}
+
+	public void setRatingCount(int ratingCount){
+		this.ratingCount = ratingCount;
+	}
+
 
 	@Override
 	public String toString(){

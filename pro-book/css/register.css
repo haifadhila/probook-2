@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
 p{
   color: black;
   font-size: 100px;;
@@ -263,11 +265,19 @@ p{
   float: left;
 }
 
+.small-margin{
+  margin-right: 15px;
+}
+
 .textalignright{
   text-align: right;
 }
 .marginright {
   margin-right: 87.7px;
+}
+
+.nunito{
+  font-family: 'Nunito', sans-serif;
 }
 
 input[type=submit] {
