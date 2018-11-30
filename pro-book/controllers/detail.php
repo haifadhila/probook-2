@@ -13,6 +13,24 @@
   $soap = new SoapClient($wsdl);
   $detail = $soap->getBookDetail($id);
 
+// DATABASE CONNECT
+  global $db_conn;
+  $reviewstmt = $db_conn->prepare('select picture, username, comment, rating
+    from Reviews natural join Transactions natural join Users
+    where idBook = ?');
+  $reviewstmt->execute([$id]);
+  $reviews = $reviewstmt->fetchAll();
+  $reviewCount = count($reviews) + $detail->ratingCount;
+  if($reviewCount == 0) {
+    $avgrating = 0;
+  } else {
+    $sumrating = $detail->ratingCount * $detail->rating;
+    foreach ($reviews as $review) {
+      $sumrating += floatval($review['rating']);
+    }
+    $avgrating = $sumrating / $reviewCount;
+  }
+
   require 'views/book-detail.php';
 
 ?>

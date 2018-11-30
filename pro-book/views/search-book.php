@@ -13,14 +13,14 @@
         <input type='submit' id='submitbt' value='Search'>
       </form>
           <div class='loader' style="display: none" id='loader'> </div>
-        <div class='resultheading' ng-if="result.books.length>0" id='test'>
+        <div class='resultheading' style="display: none" id='test'>
           <h1 class='resultsheading'>Search Result</h1>
           <div id='countresult'>
             <span>Found </span><span id='count'>{{(result.books).length}}</span><span> result(s)</span>
           </div>
         </div>
 
-      <div ng-repeat="book in result.books">
+      <div ng-repeat="book in result.books" ng-if="result.books.length>0" id="test">
         <div class='resultcontent'>
           <div class='bookdetail'>
             <div class='bookimgreview'>
