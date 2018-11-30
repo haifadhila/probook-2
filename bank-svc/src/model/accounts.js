@@ -4,7 +4,7 @@ let rowToResult = (row) => {
     return {
         accno: row.id,
         name: row.name,
-        card_number: row.card_number,
+        cardno: row.card_number,
         balance: row.balance
     }
 }

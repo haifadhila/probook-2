@@ -70,7 +70,7 @@ let listCards = (req, res) =>
             return res.sendStatus(404)
         res.send({
             accno: row.accno,
-            cards: [row.card_number]})
+            cards: [row.cardno]})
     })
 
 module.exports = {

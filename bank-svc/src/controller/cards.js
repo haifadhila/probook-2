@@ -13,7 +13,7 @@ let validate = (req, res) =>
         if (row == null)
             return res.sendStatus(404)
         res.send({
-            cardno: row.card_number,
+            cardno: row.cardno,
             accno: row.accno})
     })
 
