@@ -14,14 +14,14 @@ form{
 .bookname{
     font-size: 80px;
     color: #F26600;
-    font-family: calibri;
+    font-family: Nunito;
     margin-top: 40px;
-    margin-left: 50px;  
+    margin-left: 50px;
 }
 .author{
     font-size: 30px;
     color: black;
-    font-family: calibri;
+    font-family: Nunito;
     margin-left: 50px;
 }
 .image {
@@ -45,11 +45,11 @@ form{
 .rating, .comment{
     font-size: 40px;
     color: #13364A;
-    font-family: helvetica;
+    font-family: Nunito;
     margin-left: 50px;
     margin-bottom: 15px;
     margin-top:50px;
-    
+
     font-weight: bold;
 }
 textarea{
@@ -71,7 +71,7 @@ input[type=submit] {
     border-radius: 8px;
     cursor: pointer;
     font-size: 20px;
-    font-family: "calibri";
+    font-family: "Nunito";
 }
 
 .center {
@@ -86,7 +86,7 @@ input[type=submit] {
   }
   #backbt {
     font-size: 25px;
-    font-family: helvetica;
+    font-family: Nunito;
     color: red;
     background-color: white;
     border-color: red;
@@ -103,7 +103,7 @@ input[type=submit] {
   }
   #submitbt {
     font-size: 25px;
-    font-family: helvetica;
+    font-family: Nunito;
     color: white;
     background-color: #00AEEF;
     border-radius: 10px;
@@ -122,4 +122,3 @@ input[type=submit] {
     border-style: solid;
     border-width: 2px;
   }
-

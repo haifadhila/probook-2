@@ -163,8 +163,8 @@
 .selfalignend {
   align-self: flex-end;
 }
-.helvetica {
-  font-family: helvetica;
+.Nunito {
+  font-family: Nunito;
 }
 .boldfont {
   font-weight: bold;
@@ -209,7 +209,7 @@
 }
 #savebt {
   font-size: 25px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: white;
   background-color: #00AEEF;
   border-radius: 10px;
@@ -228,7 +228,7 @@
 }
 #backbt {
   font-size: 25px;
-  font-family: helvetica;
+  font-family: Nunito;
   color: red;
   background-color: white;
   border-color: red;
@@ -246,7 +246,7 @@
 }
 #browsebt {
   font-size: 15px;
-  font-family: helvetica;
+  font-family: Nunito;
   background-color: white;
   border-style: solid;
   border-radius: 10px;
