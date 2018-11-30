@@ -106,7 +106,7 @@ function set_auth_cookie($token) {
 
 function unset_auth_cookie() {
   if (isset($_COOKIE['authToken']))
-  setcookie('authToken', false, 1, make_url(''), '', false, true);
+    setcookie('authToken', false, 1, make_url(''), '', false, true);
 }
 
 // Get user from DB

@@ -13,14 +13,15 @@
         <input type='submit' id='submitbt' value='Search'>
       </form>
           <div class='loader' style="display: none" id='loader'> </div>
-        <div class='resultheading' style="display: none" id='test'>
+
+        <div class='resultheading' ng-if="result.books.length>0" id='test'>
           <h1 class='resultsheading'>Search Result</h1>
           <div id='countresult'>
             <span>Found </span><span id='count'>{{(result.books).length}}</span><span> result(s)</span>
           </div>
         </div>
 
-      <div ng-repeat="book in result.books" ng-if="result.books.length>0" id="test">
+      <div ng-repeat="book in result.books">
         <div class='resultcontent'>
           <div class='bookdetail'>
             <div class='bookimgreview'>
@@ -29,9 +30,9 @@
             <div class='book'>
               <div class='bookname'>{{book.title}}</div>
               <div class='bookscore'>
-                <span class='bookauthor'>{{book.author}}</span>
+                <span class='bookauthor'>{{book.saleability}}</span>
                 <span>&nbsp;-&nbsp;</span>
-                <span class='bookrating'>{{book.rating | number:1}}</span>
+                <span class='bookrating'>{{book.rating}}</span>
                 <span>/5.0 (</span>
                 <span class='bookvotecount'>{{book.ratingCount}}</span>
                 <span>&nbsp;votes)</span>
@@ -39,10 +40,7 @@
               <div class='bookdesc'>{{book.description}}</div>
             </div>
           </div>
-          <!-- <a href='detail?id={{book.idBook}}'>
-            <button class='detail'>Detail</button>
-          </a> -->
-          <a href='<?php eu('detail', '{{book.idBook}}');?>'>
+          <a href='{{book.idBook}}'>
             <button class='detail'>Detail</button>
           </a>
         </div>

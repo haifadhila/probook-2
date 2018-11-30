@@ -12,9 +12,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     global $db_conn;
     global $router_extrapath;
-    $idTransaction = intval($router_extrapath);
-    $reviewstmt = $db_conn->prepare('select cover, idBook, books.title, author from Transactions natural join Books where idTransaction = ?');
+    $idTransaction = intval($router_extrapath); 
+    $reviewstmt = $db_conn->prepare('select cover, idBook, books.title, books.author from Transactions natural join Books where idTransaction = ?');
     $reviewstmt->execute([$idTransaction]);
     $result = $reviewstmt->fetch();
     require 'views/history-review.php';
 }
+

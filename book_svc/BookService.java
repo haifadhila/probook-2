@@ -18,8 +18,8 @@ public interface BookService{
 	public Book getBookDetail(String idBook) throws IOException;
 
 	@WebMethod
-	public boolean buyBook(String idBook, int qty, String senderNum);
+	public boolean buyBook(String idBook, int qty, String senderNum) throws IOException;
 
 	@WebMethod
-	public Book[] recommendBooks(String category);
+	public Book recommendBook(String category) throws IOException;
 }
