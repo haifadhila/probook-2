@@ -272,7 +272,7 @@ public class BookServiceImpl implements bookservice.BookService {
             String USER_AGENT = "Mozilla/5.0";
             //    String POST_URL = "http://localhost..."; //localhost untuk transfer
             //    String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
-            String POST_URL = "http://localhost:3000/transfer"; //localhost untuk transfer
+            String POST_URL = "http://localhost:7000/transfer"; //localhost untuk transfer
             String POST_PARAM = "nomorPengirim=" + senderNum + "&nomorPenerima=" + 999999 + "&jumlah=" + qty*b.getPrice(); //masukkan hasil append + parameter
             URL obj = new URL(POST_URL);
 
