@@ -34,7 +34,7 @@
         </div>
         <div class='rowcontainer flexstart mediummarginleft smallmargintop smallmarginbottom'>
           <div class='normalfont smallflex normalmarginleft nunito'>Card Number</div>
-          <input type='text' class='smallmarginleft normalfont mediumflex normalmarginright' id='profile-phone' name='phone' value='<?php e($result['phone']);?>'>
+          <input type='text' class='smallmarginleft normalfont mediumflex normalmarginright' id='card-number' name='cardnumber' value='<?php e($result['card_number']);?>'>
         </div>
       </div>
       <div class='spacebetweencontainer'>

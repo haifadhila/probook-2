@@ -40,7 +40,7 @@
         <div class='rowcontainer largewidthcontainer largemarginleft flexcenter smallmarginbottom'>
             <img class='verysmallimg noborder verysmallpaddingleft verysmallpaddingright' src='<?php es('img/credit-card.png');?>'>
             <div class='mediumfont helvetica mediumflex smallpaddingleft'>Card Number</div>
-            <div class='mediumfont helvetica largeflex'><?php e($result['card'])?></div>
+            <div class='mediumfont helvetica largeflex'><?php e($result['card_number'])?></div>
         </div>
     </div>
   </body>
