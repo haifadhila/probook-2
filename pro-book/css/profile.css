@@ -53,6 +53,9 @@
 .margin-bottom {
   margin-bottom: 20px;
 }
+.margin-left-update {
+  margin-left: 80px;
+}
 .smallmargintop {
   margin-top: 15px;
 }
@@ -94,6 +97,9 @@
 }
 .morewidthcontainer {
   width: 830px;
+}
+.update-width {
+  width: 635px;
 }
 .fullwidthcontainer {
   width: 100%;

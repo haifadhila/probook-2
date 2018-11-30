@@ -6,14 +6,14 @@
   <body>
     <?php require 'views/header.php';?>
     <form method='POST' enctype='multipart/form-data' id='updateform'>
-      <h1 class='verylargefont yellowfont helvetica mediummarginleft mediumpaddingtop'>
+      <h1 class='verylargefont yellowfont mediummarginleft mediumpaddingtop nunito'>
         Edit Profile</h1>
       <div class='rowcontainer flexcenter smallmargintop mediummarginleft mediummarginbottom'>
         <img class='normalmarginleft mediumimg smallborder solidborder' src='<?php es("uploadimg/${result['picture']}");?>'>
-        <div class='columncontainer abnormalmarginleft nunito'>
+        <div class='columncontainer margin-left-update nunito'>
           <label for='dp' class='mediumfont'>Update profile picture</label>
           <div class='rowcontainer normalmargintop'>
-            <input type='text' class='normalfont smallheight morewidthcontainer selfaligncenter' id='profile-picture' name='fakepicture' placeholder="Input file picture" disabled>
+            <input type='text' class='normalfont smallheight update-width selfaligncenter' id='profile-picture' name='fakepicture' placeholder="Input file picture" disabled>
             <label for='dp-file' class='mediummarginleft' id='browsebt'>Browse</label>
           </div>
           <input type='file' class='smallmargintop' id='dp-file' name='picture'>
