@@ -6,13 +6,14 @@ import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
 
 import bookservice.Book;
+import org.json.JSONException;
 
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 public interface BookService{
 
 	@WebMethod
-	public Book[] getBooks(String keyword) throws IOException;
+	public Book[] getBooks(String keyword) throws IOException, JSONException;
 
 	@WebMethod
 	public Book getBookDetail(String idBook) throws IOException;
@@ -21,5 +22,5 @@ public interface BookService{
 	public boolean buyBook(String idBook, int qty, String senderNum) throws IOException;
 
 	@WebMethod
-	public Book[] recommendBooks(String category);
+	public Book recommendBook(String category) throws IOException;
 }

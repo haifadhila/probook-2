@@ -13,8 +13,8 @@ if (!isset($_REQUEST['search'])) {
     $soap = new SoapClient($wsdl);
     $data = $soap->getBooks($_REQUEST['search']);
 
+    // DATABASE CONNECT (to input reviews)
     if ($data->item != null){
-      // DATABASE CONNECT (to input reviews)
       global $db_conn;
       $reviewstmt = $db_conn->prepare('select rating
         from Reviews natural join Transactions natural join Users

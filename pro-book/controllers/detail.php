@@ -31,6 +31,19 @@
     $avgrating = $sumrating / $reviewCount;
   }
 
+  // INSERT BOOK DATA TO PROBOOK DB
+  $reviewstmt = $db_conn->prepare("
+  INSERT INTO Books (idBook, title, author, cover)
+  SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp
+  WHERE NOT EXISTS (
+      SELECT idBook FROM Books WHERE idBook = ?
+  ) LIMIT 1;
+  ");
+  $reviewstmt->execute([$detail->idBook, $detail->title, $detail->author, $detail->cover, $detail->idBook]);
+
+  // Get book recommendations
+  $rec = $soap->recommendBook($detail->category);
+
   require 'views/book-detail.php';
 
 ?>

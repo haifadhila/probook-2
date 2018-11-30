@@ -54,6 +54,17 @@
           <div class='bookrating'><?php e(number_format($avgrating,1));?>&nbsp;/ 5.0</div>
         </div>
       </div>
+      <div class=>
+        <h2 class='h3heading'>You might also like...</h2>
+        <div class='bookdetaileddesc'>
+          <a href='<?php eu('detail', $rec->idBook); ?>'>
+          <div class='bookimg'>
+            <img src='<?php e($rec->cover); ?>'>
+          </div>
+          <p><?php e($rec->title); ?></p>
+          </a>
+        </div>
+      </div>
 <!-- ORDER -->
     <?php if ($detail->saleability == 'FOR_SALE' || $detail->saleability == 'FREE'){ ?>
       <div>
