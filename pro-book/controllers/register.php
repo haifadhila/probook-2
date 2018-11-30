@@ -23,6 +23,17 @@ function check_email($email) {
   return !($num > 0);
 }
 
+function check_cardnumber($cardnumber){
+    global $db_conn;
+    if (strlen($cardnumber) > 16 || strlen($cardnumber) < 1)
+        return false;
+    $stmt = $db_conn->prepare('SELECT count(*) as c from Users where card_number=?');
+    $stmt->execute([$cardnumber]);
+    $num = intval($stmt->fetchColumn());
+    return !($num > 0);
+
+}
+
 global $router_extrapath;
 
 if ($router_extrapath === 'validate') {
