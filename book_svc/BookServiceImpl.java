@@ -241,6 +241,7 @@ public class BookServiceImpl implements bookservice.BookService {
 	// TO BUY BOOK
 	@Override
 	public boolean buyBook(String idBook, int qty, String senderNum) throws IOException {
+		System.out.println(idBook);
 
 	  // Query book details dari database
 	  Book b = new Book();

@@ -24,6 +24,7 @@ $wsdl = 'http://localhost:8888/ws/probook?wsdl';
 
 $soap = new SoapClient($wsdl);
 $soap->buyBook($content['idBook'], $content['quantity'], $auth_user['card_number']);
+var_dump($content['idBook']);
 
 header('content-type: application/json; charset=utf-8');
 echo json_encode($result);
