@@ -24,6 +24,10 @@ Arsitektur pada Tugas 2 ini cukup berbeda dengan Tugas 1 yang sebelumnya dimana 
 
 ### Pembagian Tugas
 
+13516076: Haifa
+13516022: Albert
+13516103: Sammy
+
 REST :
 1. Create API Definition : 13516103
 2. Implement Skeleton : 13516022, 13516103
